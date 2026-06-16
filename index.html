@@ -362,6 +362,34 @@ section::after {
 }
 .about-text p { margin-bottom: 1.4rem; }
 .about-text p:last-child { margin-bottom: 0; }
+.about-text p:first-child::first-letter { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--gold); float: left; line-height: 0.8; margin: 0.15rem 0.6rem 0 0; }
+
+/* STATS — institutional snapshot */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 4rem 0; }
+.stat-block { background: var(--deep); padding: 2rem 1.5rem; text-align: center; backdrop-filter: blur(16px); transition: background 0.3s; }
+.stat-block:hover { background: rgba(0,35,149,0.45); }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,4vw,3.5rem); font-weight: 300; line-height: 1; display: block; background: linear-gradient(90deg, var(--gold), var(--gold2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-family: 'Space Mono', monospace; font-size: 0.48rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); margin-top: 0.6rem; }
+
+/* TIMELINE — historia */
+.timeline { position: relative; padding-left: 2.5rem; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--gold), var(--cyan), transparent); }
+.tl-item { position: relative; margin-bottom: 3rem; }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-item::before { content: ''; position: absolute; left: -2.5rem; top: 0.45rem; width: 9px; height: 9px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 14px rgba(237,41,57,0.5); }
+.tl-year { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 0.5rem; }
+.tl-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; color: var(--white); margin-bottom: 0.5rem; }
+.tl-text { font-size: 0.88rem; line-height: 1.8; color: var(--muted); }
+
+/* GALLERY GRID — retratos oficiales */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem; margin-top: 2rem; }
+.gal-item { position: relative; overflow: hidden; cursor: pointer; border: 1px solid var(--border); aspect-ratio: 4/3; background: var(--deep); }
+.gal-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.4s; filter: saturate(85%) contrast(105%); display: block; }
+.gal-item:hover img { transform: scale(1.08); filter: saturate(100%) contrast(110%); }
+.gal-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,10,31,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.4s; }
+.gal-item:hover::after { opacity: 1; }
+.gal-zoom { position: absolute; bottom: 1rem; right: 1rem; z-index: 5; width: 2rem; height: 2rem; border: 1px solid rgba(237,41,57,0.6); background: rgba(10,22,56,0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 0.6rem; opacity: 0; transform: translateY(4px); transition: all 0.3s; }
+.gal-item:hover .gal-zoom { opacity: 1; transform: none; }
 
 .consul-card {
   padding: 1.8rem; border: 1px solid var(--border);
@@ -860,7 +888,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   <a href="#about" onclick="closeMob()" data-es="Perfil" data-fr="Profil" data-en="Profile">Perfil</a>
   <a href="#historia" onclick="closeMob()" data-es="Historia" data-fr="Histoire" data-en="History">Historia</a>
   <a href="#services" onclick="closeMob()" data-es="Servicios" data-fr="Services" data-en="Services">Servicios</a>
-  <a href="#gallery" onclick="closeMob()" data-es="Galería" data-fr="Galerie" data-en="Gallery">Galería</a>
+  <a href="#galeria" onclick="closeMob()" data-es="Galería" data-fr="Galerie" data-en="Gallery">Galería</a>
   <a href="#links" onclick="closeMob()" data-es="Enlaces" data-fr="Liens" data-en="Links">Enlaces</a>
   <a href="#video-reel" onclick="closeMob()" data-es="Vídeo" data-fr="Vidéo" data-en="Video">Vídeo</a>
   <a href="#contact" onclick="closeMob()" data-es="Contacto" data-fr="Contact" data-en="Contact">Contacto</a>
@@ -879,7 +907,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     <li><a href="#about" data-es="Perfil" data-fr="Profil" data-en="Profile">Perfil</a></li>
     <li><a href="#historia" data-es="Historia" data-fr="Histoire" data-en="History">Historia</a></li>
     <li><a href="#services" data-es="Servicios" data-fr="Services" data-en="Services">Servicios</a></li>
-    <li><a href="#gallery" data-es="Galería" data-fr="Galerie" data-en="Gallery">Galería</a></li>
+    <li><a href="#galeria" data-es="Galería" data-fr="Galerie" data-en="Gallery">Galería</a></li>
     <li><a href="#links" data-es="Enlaces" data-fr="Liens" data-en="Links">Enlaces</a></li>
     <li><a href="#video-reel" data-es="Vídeo" data-fr="Vidéo" data-en="Video">Vídeo</a></li>
     <li><a href="#contact" data-es="Contacto" data-fr="Contact" data-en="Contact">Contacto</a></li>
@@ -981,6 +1009,30 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   </div>
 </section>
 
+<!-- ═══ STATS ═══ -->
+<div class="z10" style="position:relative">
+  <div class="container">
+    <div class="stats-row reveal">
+      <div class="stat-block">
+        <span class="stat-num">5</span>
+        <div class="stat-label" data-es="Áreas de servicio consular" data-fr="Domaines de service consulaire" data-en="Consular service areas">Áreas de servicio consular</div>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">3</span>
+        <div class="stat-label" data-es="Idiomas de atención" data-fr="Langues de service" data-en="Service languages">Idiomas de atención</div>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">1</span>
+        <div class="stat-label" data-es="Estado bajo jurisdicción" data-fr="État sous juridiction" data-en="State under jurisdiction">Estado bajo jurisdicción</div>
+      </div>
+      <div class="stat-block">
+        <span class="stat-num">MX</span>
+        <div class="stat-label" data-es="Sede · Tuxtla Gutiérrez" data-fr="Siège · Tuxtla Gutiérrez" data-en="HQ · Tuxtla Gutiérrez">Sede · Tuxtla Gutiérrez</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ ABOUT ═══ -->
 <section id="about" class="alt z10">
   <div class="container">
@@ -1034,6 +1086,53 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     <div class="about-grid">
       <div class="about-text reveal d1">
         <p data-es="La presencia consular francesa en Chiapas ha sido un pilar fundamental en la historia del Soconusco. Desde el auge del eje cafetalero a finales del siglo XIX hasta nuestra labor contemporánea, el Consulado ha sido un puente entre culturas." data-fr="La présence consulaire française au Chiapas est un pilier de l'histoire du Soconusco. Depuis l'essor de l'axe caféier à la fin du XIXe siècle jusqu'à notre travail contemporain, le Consulat est un pont entre les cultures." data-en="The French consular presence in Chiapas has been a fundamental pillar in the history of the Soconusco region. From the rise of the coffee axis in the late 19th century to our contemporary work, the Consulate has been a bridge between cultures.">La presencia consular francesa en Chiapas ha sido un pilar fundamental en la historia del Soconusco. Desde el auge del eje cafetalero a finales del siglo XIX hasta nuestra labor contemporánea, el Consulado ha sido un puente entre culturas.</p>
+      </div>
+      <div class="reveal d2">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">SIGLO XIX</div>
+            <div class="tl-title" data-es="Llegada francesa al Soconusco" data-fr="Arrivée française au Soconusco" data-en="French arrival in Soconusco">Llegada francesa al Soconusco</div>
+            <div class="tl-text" data-es="Colonos y empresarios franceses se establecen en Chiapas durante el auge cafetalero, dejando una huella cultural y económica." data-fr="Des colons et entrepreneurs français s'établissent au Chiapas pendant l'essor du café, laissant une empreinte culturelle et économique." data-en="French settlers and entrepreneurs establish themselves in Chiapas during the coffee boom, leaving a cultural and economic mark.">Colonos y empresarios franceses se establecen en Chiapas durante el auge cafetalero, dejando una huella cultural y económica.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">SIGLO XX</div>
+            <div class="tl-title" data-es="Consolidación institucional" data-fr="Consolidation institutionnelle" data-en="Institutional consolidation">Consolidación institucional</div>
+            <div class="tl-text" data-es="La Alliance Française y el Consulado Honorario consolidan la presencia cultural y diplomática francesa en la región." data-fr="L'Alliance Française et le Consulat Honoraire consolident la présence culturelle et diplomatique française dans la région." data-en="The Alliance Française and Honorary Consulate consolidate the French cultural and diplomatic presence in the region.">La Alliance Française y el Consulado Honorario consolidan la presencia cultural y diplomática francesa en la región.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year" data-es="HOY" data-fr="AUJOURD'HUI" data-en="TODAY">HOY</div>
+            <div class="tl-title" data-es="Misión contemporánea" data-fr="Mission contemporaine" data-en="Contemporary mission">Misión contemporánea</div>
+            <div class="tl-text" data-es="Patrick Robert de Bréon lidera el enlace consular, la asistencia a connacionales y la cooperación franco-chiapaneca desde Tuxtla Gutiérrez." data-fr="Patrick Robert de Bréon dirige la liaison consulaire, l'assistance aux ressortissants et la coopération franco-chiapanèque depuis Tuxtla Gutiérrez." data-en="Patrick Robert de Bréon leads consular liaison, assistance to nationals, and Franco-Chiapanec cooperation from Tuxtla Gutiérrez.">Patrick Robert de Bréon lidera el enlace consular, la asistencia a connacionales y la cooperación franco-chiapaneca desde Tuxtla Gutiérrez.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALERÍA DE RETRATOS OFICIALES ═══ -->
+<section id="galeria" class="z10">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-es="Registro fotográfico" data-fr="Registre photographique" data-en="Photo record">Registro fotográfico</p>
+      <h2 class="sec-title" style="margin-top:0.8rem;"><em data-es="Galería oficial" data-fr="Galerie officielle" data-en="Official gallery">Galería oficial</em></h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gal-item reveal d1" onclick="openLB('Patrick_foto_oficial_1.jpg','Patrick Robert de Bréon')">
+        <img src="Patrick_foto_oficial_1.jpg" alt="Patrick Robert de Bréon" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="gal-zoom"><i class="fa fa-expand"></i></div>
+      </div>
+      <div class="gal-item reveal d2" onclick="openLB('Patrick_foto_oficial_2.jpg','Patrick Robert de Bréon')">
+        <img src="Patrick_foto_oficial_2.jpg" alt="Patrick Robert de Bréon" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="gal-zoom"><i class="fa fa-expand"></i></div>
+      </div>
+      <div class="gal-item reveal d3" onclick="openLB('Patrick_foto_oficial_3.jpg','Patrick Robert de Bréon')">
+        <img src="Patrick_foto_oficial_3.jpg" alt="Patrick Robert de Bréon" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="gal-zoom"><i class="fa fa-expand"></i></div>
+      </div>
+      <div class="gal-item reveal d4" onclick="openLB('Patrick_foto_oficial_4.jpg','Patrick Robert de Bréon')">
+        <img src="Patrick_foto_oficial_4.jpg" alt="Patrick Robert de Bréon" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="gal-zoom"><i class="fa fa-expand"></i></div>
       </div>
     </div>
   </div>

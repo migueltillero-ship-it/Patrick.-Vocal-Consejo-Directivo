@@ -1110,13 +1110,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   </div>
 </section>
 
-<!-- ═══ GALERÍA DE RETRATOS OFICIALES ═══ -->
+<!-- ═══ GALERÍA UNIFICADA — Retratos oficiales + Momentos institucionales ═══ -->
 <section id="galeria" class="z10">
   <div class="container">
     <div class="sec-head reveal">
       <p class="eyebrow" data-es="Registro fotográfico" data-fr="Registre photographique" data-en="Photo record">Registro fotográfico</p>
-      <h2 class="sec-title" style="margin-top:0.8rem;"><em data-es="Galería oficial" data-fr="Galerie officielle" data-en="Official gallery">Galería oficial</em></h2>
+      <h2 class="sec-title" style="margin-top:0.8rem;"><em data-es="Galería institucional" data-fr="Galerie institutionnelle" data-en="Institutional gallery">Galería institucional</em></h2>
     </div>
+
+    <!-- Bloque 1: retratos oficiales -->
+    <p class="eyebrow reveal" style="margin-bottom:1.2rem" data-es="// Retratos oficiales" data-fr="// Portraits officiels" data-en="// Official portraits">// Retratos oficiales</p>
     <div class="gallery-grid">
       <div class="gal-item reveal d1" onclick="openLB('Patrick_foto_oficial_1.jpg','Patrick Robert de Bréon')">
         <img src="Patrick_foto_oficial_1.jpg" alt="Patrick Robert de Bréon" loading="lazy" onerror="this.parentElement.style.display='none'">
@@ -1134,6 +1137,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
         <img src="Patrick_foto_oficial_4.jpg" alt="Patrick Robert de Bréon" loading="lazy" onerror="this.parentElement.style.display='none'">
         <div class="gal-zoom"><i class="fa fa-expand"></i></div>
       </div>
+    </div>
+
+    <!-- Bloque 2: filmstrip de momentos -->
+    <p class="eyebrow reveal" style="margin:3.5rem 0 1.2rem" data-es="// Momentos y proyectos" data-fr="// Moments et projets" data-en="// Moments & projects">// Momentos y proyectos</p>
+    <div class="filmstrip-wrap reveal">
+      <div class="filmstrip-track" id="filmstrip">
+        <!-- Renderizado dinámico por JS de 1.png a 26.png -->
+      </div>
+    </div>
+    <div class="filmstrip-hint reveal">
+      <i class="fa fa-hand-pointer"></i>
+      <span data-es="Arrastra para explorar" data-fr="Glissez pour explorer" data-en="Drag to explore">Arrastra para explorar</span>
     </div>
   </div>
 </section>
@@ -1191,25 +1206,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   </div>
 </section>
 
-<!-- ═══ GALLERY FILMSTRIP ═══ -->
-<section id="gallery" class="alt z10">
-  <div class="container">
-    <div class="sec-head reveal">
-      <p class="eyebrow" data-es="Momentos y proyectos" data-fr="Moments et projets" data-en="Moments & projects">Momentos y proyectos</p>
-      <h2 class="sec-title" style="margin-top:0.8rem;"><em data-es="Galería institucional" data-fr="Galerie institutionnelle" data-en="Institutional gallery">Galería institucional</em></h2>
-    </div>
-
-    <div class="filmstrip-wrap reveal">
-      <div class="filmstrip-track" id="filmstrip">
-        <!-- Renderizado dinámico por JS de 1.png a 26.png -->
-      </div>
-    </div>
-    <div class="filmstrip-hint reveal">
-      <i class="fa fa-hand-pointer"></i>
-      <span data-es="Arrastra para explorar" data-fr="Glissez pour explorer" data-en="Drag to explore">Arrastra para explorar</span>
-    </div>
-  </div>
-</section>
 
 <!-- ═══ USEFUL LINKS ═══ -->
 <section id="links" class="z10">

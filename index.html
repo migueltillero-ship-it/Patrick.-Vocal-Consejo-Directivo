@@ -246,13 +246,6 @@ body::after {
   position: relative;
 }
 .hero-name em { font-style: normal; color: var(--gold); display: block; }
-.hero-name em {
-  background: linear-gradient(90deg, var(--gold) 0%, var(--gold2) 40%, var(--cyan) 80%, var(--gold) 100%);
-  background-size: 300% auto;
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 5s linear infinite;
-}
 
 /* ── French tricolor accent band — subtle, under the hero name ── */
 .tricolor-band {
@@ -306,8 +299,14 @@ body::after {
 .portrait-hud { position: relative; padding: 1px; background: linear-gradient(135deg, var(--gold), transparent 50%, var(--cyan) 100%); animation: float-y 6s ease-in-out infinite; }
 .portrait-inner { background: linear-gradient(145deg, var(--deep), var(--em1)); position: relative; overflow: hidden; }
 .portrait-scan { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(77,255,200,0.5), transparent); animation: hud-scan 3s linear infinite; z-index: 5; pointer-events: none; }
-.portrait-inner img { width: 100%; display: block; filter: contrast(105%) saturate(85%); transition: filter 0.5s; }
-.portrait-inner .initials { aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 300; color: var(--gold); opacity: 0.4; }
+.portrait-slide {
+  width: 100%; display: block;
+  filter: contrast(105%) saturate(85%);
+  position: absolute; top: 0; left: 0;
+  opacity: 0; transition: opacity 1.2s ease;
+  aspect-ratio: 3/4; object-fit: cover; object-position: top center;
+}
+.portrait-slide.active { opacity: 1; position: relative; }
 .portrait-data {
   position: absolute; bottom: 0; left: 0; right: 0;
   background: linear-gradient(to top, rgba(2,5,16,0.95) 0%, transparent 100%);
@@ -329,16 +328,6 @@ body::after {
 }
 .hud-data-box .row { display: flex; justify-content: space-between; }
 .hud-data-box .val { color: var(--gold); }
-
-/* Portrait carousel */
-.portrait-slide {
-  width: 100%; display: block;
-  filter: contrast(105%) saturate(85%);
-  position: absolute; top: 0; left: 0;
-  opacity: 0; transition: opacity 1.2s ease;
-  aspect-ratio: 3/4; object-fit: cover; object-position: top center;
-}
-.portrait-slide.active { opacity: 1; position: relative; }
 
 section { padding: 6rem 0; position: relative; }
 section.alt { background: rgba(4,16,8,0.65); }
@@ -372,10 +361,6 @@ section::after {
 }
 .about-text p { margin-bottom: 1.4rem; }
 .about-text p:last-child { margin-bottom: 0; }
-.about-text p:first-child::first-letter {
-  font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300;
-  color: var(--gold); float: left; line-height: 0.8; margin: 0.15rem 0.12rem 0 0;
-}
 
 .consul-card {
   padding: 1.8rem; border: 1px solid var(--border);
@@ -528,9 +513,6 @@ section::after {
   background: rgba(201,169,110,.05);
 }
 .cv-btn:hover { border-color: var(--gold); background: rgba(201,169,110,.12); color: var(--white); box-shadow: 0 0 28px rgba(201,169,110,.25); transform: translateY(-2px); }
-.cv-btn i { font-size: 0.8rem; }
-.cv-flag { font-size: 0.85rem; }
-
 .cv-drop-item {
   display: flex; align-items: center; gap: .6rem; padding: .65rem 1.2rem;
   color: rgba(238,248,243,.8); font-family: 'Space Mono', monospace;
@@ -590,12 +572,10 @@ section::after {
 
 /* FOOTER */
 #footer {
-  padding: 3rem 0;
-  border-top: 1px solid var(--border);
+  padding: 3rem 0; border-top: 1px solid var(--border);
   background: linear-gradient(180deg, var(--void) 0%, #010804 100%);
   position: relative;
 }
-/* Tricolor accent on footer top border */
 #footer::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, var(--fr-blue) 0%, var(--fr-blue) 33.33%, var(--white) 33.33%, var(--white) 66.66%, var(--fr-red) 66.66%, var(--fr-red) 100%);
@@ -615,10 +595,7 @@ section::after {
 .footer-lb:hover, .footer-lb.active { border-color: var(--gold); color: var(--gold); }
 
 /* FLOATING */
-#wa-float {
-  position: fixed; bottom: 5.5rem; right: 2rem; z-index: 900;
-  display: flex; align-items: center; gap: 0.7rem;
-}
+#wa-float { position: fixed; bottom: 5.5rem; right: 2rem; z-index: 900; display: flex; align-items: center; gap: 0.7rem; }
 #wa-btn {
   width: 3rem; height: 3rem; border-radius: 50%;
   background: #25D366; color: white; border: none;
@@ -647,203 +624,99 @@ section::after {
 #audio-btn.playing { animation: pulse-border 2s infinite; border-color: var(--gold); }
 
 /* VIDEO REEL */
-#video-reel {
-  padding: 5rem 0;
-  background: linear-gradient(180deg, rgba(4,16,8,.9) 0%, rgba(2,12,6,.95) 100%);
-  position: relative; z-index: 10;
-}
-.video-wrapper {
-  position: relative; max-width: 900px; margin: 0 auto;
-  overflow: hidden;
-  border: 1px solid rgba(201,169,110,0.25);
-  box-shadow: 0 0 60px rgba(201,169,110,0.08), 0 30px 80px rgba(0,0,0,0.6);
-}
-.video-wrapper::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.5), rgba(77,255,200,0.4), transparent);
-  z-index: 2;
-}
+#video-reel { padding: 5rem 0; background: linear-gradient(180deg, rgba(4,16,8,.9) 0%, rgba(2,12,6,.95) 100%); position: relative; z-index: 10; }
+.video-wrapper { position: relative; max-width: 900px; margin: 0 auto; overflow: hidden; border: 1px solid rgba(201,169,110,0.25); box-shadow: 0 0 60px rgba(201,169,110,0.08), 0 30px 80px rgba(0,0,0,0.6); }
+.video-wrapper::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(201,169,110,0.5), rgba(77,255,200,0.4), transparent); z-index: 2; }
 .video-wrapper video { width: 100%; display: block; filter: contrast(105%) saturate(90%); }
-.video-play-overlay {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(2,12,6,0.45);
-  transition: opacity 0.4s; cursor: pointer; z-index: 5;
-}
+.video-play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(2,12,6,0.45); transition: opacity 0.4s; cursor: pointer; z-index: 5; }
 .video-play-overlay.hidden { opacity: 0; pointer-events: none; }
-.play-circle {
-  width: 72px; height: 72px; border-radius: 50%;
-  border: 1px solid rgba(201,169,110,0.7);
-  background: rgba(4,16,8,0.7);
-  display: flex; align-items: center; justify-content: center;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s;
-  box-shadow: 0 0 30px rgba(201,169,110,0.2);
-}
+.play-circle { width: 72px; height: 72px; border-radius: 50%; border: 1px solid rgba(201,169,110,0.7); background: rgba(4,16,8,0.7); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); transition: all 0.3s; box-shadow: 0 0 30px rgba(201,169,110,0.2); }
 .play-circle i { color: var(--gold); font-size: 1.5rem; margin-left: 4px; }
 .video-play-overlay:hover .play-circle { background: rgba(201,169,110,0.15); border-color: var(--gold); box-shadow: 0 0 50px rgba(201,169,110,0.35); }
-.v-corner {
-  position: absolute; width: 16px; height: 16px;
-  border-color: rgba(201,169,110,0.5); border-style: solid; z-index: 6;
-}
-.v-corner.tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
-.v-corner.tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
-.v-corner.bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
-.v-corner.br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
-.video-meta {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 0.8rem 1rem 0;
-  font-family: 'Space Mono', monospace; font-size: 0.45rem;
-  letter-spacing: 0.3em; color: var(--muted); text-transform: uppercase;
-}
+.v-corner { position: absolute; width: 16px; height: 16px; border-color: rgba(201,169,110,0.5); border-style: solid; z-index: 6; }
+.v-corner.tl { top: 0; left: 0; border-width: 2px 0 0 2px; } .v-corner.tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+.v-corner.bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; } .v-corner.br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+.video-meta { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1rem 0; font-family: 'Space Mono', monospace; font-size: 0.45rem; letter-spacing: 0.3em; color: var(--muted); text-transform: uppercase; }
 .video-meta .vtag { color: var(--gold); }
 
 /* VIDEO INTRO */
 #video-intro {
   position: fixed; inset: 0; z-index: 99999;
   background: radial-gradient(ellipse 100% 100% at 50% 45%, #0d3520 0%, #082415 30%, #051a0e 60%, #030f08 100%);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  transition: opacity 1.2s ease;
+  display: flex; align-items: center; justify-content: center; overflow: hidden; transition: opacity 1.2s ease;
 }
 #video-intro.fade-out { opacity: 0; pointer-events: none; }
-#video-intro::before {
-  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.75) 100%);
-}
-.intro-brand {
-  position: absolute; inset: 0; z-index: 5;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 1rem;
-  pointer-events: none;
-}
+#video-intro::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.75) 100%); }
+.intro-brand { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; pointer-events: none; }
 .intro-monogram {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(4rem, 12vw, 9rem);
-  font-weight: 300; color: transparent;
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(4rem, 12vw, 9rem); font-weight: 300; color: transparent;
   background: linear-gradient(135deg, #c9a030 0%, #e8be50 35%, #f8d870 55%, #e8be50 75%, #c9a030 100%);
-  background-size: 300% auto;
-  -webkit-background-clip: text; background-clip: text;
-  filter: drop-shadow(0 4px 50px rgba(201,160,48,0.6));
-  animation: shimmer 5s linear infinite;
-  line-height: 1; letter-spacing: 0.08em;
+  background-size: 300% auto; -webkit-background-clip: text; background-clip: text;
+  filter: drop-shadow(0 4px 50px rgba(201,160,48,0.6)); animation: shimmer 5s linear infinite; line-height: 1; letter-spacing: 0.08em;
   opacity: 0; transition: opacity 1s ease;
 }
 .intro-monogram.show { opacity: 1; }
-.intro-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.3rem, 3.5vw, 2.4rem);
-  font-weight: 400; letter-spacing: 0.1em;
-  color: #eef8f3; margin-top: 0.3rem; text-align: center;
-  opacity: 0; transition: opacity 1s ease 0.4s;
-}
+.intro-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.3rem, 3.5vw, 2.4rem); font-weight: 400; letter-spacing: 0.1em; color: #eef8f3; margin-top: 0.3rem; text-align: center; opacity: 0; transition: opacity 1s ease 0.4s; }
 .intro-title.show { opacity: 1; }
-.intro-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: clamp(0.5rem, 1.4vw, 0.6rem);
-  letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--gold); margin-top: 0.5rem;
-  max-width: 90%; text-align: center; line-height: 2;
-  opacity: 0; transition: opacity 1s ease 0.7s;
-}
+.intro-sub { font-family: 'Space Mono', monospace; font-size: clamp(0.5rem, 1.4vw, 0.6rem); letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-top: 0.5rem; max-width: 90%; text-align: center; line-height: 2; opacity: 0; transition: opacity 1s ease 0.7s; }
 .intro-sub.show { opacity: 1; }
 .intro-progress-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.06); z-index: 6; }
 .intro-progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--cyan)); width: 0%; transition: none; }
-.intro-skip {
-  position: absolute; top: 2rem; right: 2rem; z-index: 10;
-  background: rgba(4,16,8,0.65); border: 1px solid rgba(201,169,110,0.35);
-  color: rgba(240,247,242,0.6);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.5rem; letter-spacing: 0.35em; text-transform: uppercase;
-  padding: 0.5rem 1.2rem; cursor: pointer; backdrop-filter: blur(12px);
-  transition: all 0.3s; opacity: 0; animation: fadeIn 0.6s ease 2s forwards;
-  display: flex; align-items: center; gap: 0.6rem;
-}
+.intro-skip { position: absolute; top: 2rem; right: 2rem; z-index: 10; background: rgba(4,16,8,0.65); border: 1px solid rgba(201,169,110,0.35); color: rgba(240,247,242,0.6); font-family: 'Space Mono', monospace; font-size: 0.5rem; letter-spacing: 0.35em; text-transform: uppercase; padding: 0.5rem 1.2rem; cursor: pointer; backdrop-filter: blur(12px); transition: all 0.3s; opacity: 0; animation: fadeIn 0.6s ease 2s forwards; display: flex; align-items: center; gap: 0.6rem; }
 .intro-skip:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,169,110,0.1); }
 body.intro-active { overflow: hidden; }
-#video-intro #intro-video {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center; z-index: 2;
-  opacity: 1; transition: opacity 1.4s ease;
-}
+#video-intro #intro-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 2; opacity: 1; transition: opacity 1.4s ease; }
 #video-intro.dimmed #intro-video { opacity: 0.42; }
 #video-intro.entered #intro-video { opacity: 1; }
-.intro-enter-btn {
-  margin-top: 1.8rem; display: inline-flex; align-items: center; gap: 1rem;
-  background: rgba(201,169,110,0.06);
-  border: 1px solid rgba(201,169,110,0.5);
-  color: var(--gold2); cursor: pointer; pointer-events: auto;
-  padding: 1rem 2.5rem;
-  font-family: 'Space Mono', monospace; font-size: 0.6rem;
-  letter-spacing: 0.3em; text-transform: uppercase; font-weight: 700;
-  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  backdrop-filter: blur(8px); position: relative; overflow: hidden;
-  opacity: 0; transform: translateY(20px);
-}
+.intro-enter-btn { margin-top: 1.8rem; display: inline-flex; align-items: center; gap: 1rem; background: rgba(201,169,110,0.06); border: 1px solid rgba(201,169,110,0.5); color: var(--gold2); cursor: pointer; pointer-events: auto; padding: 1rem 2.5rem; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 700; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); backdrop-filter: blur(8px); position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); }
 .intro-enter-btn.show { opacity: 1; transform: translateY(0); }
 .intro-enter-btn:hover { border-color: var(--gold); color: var(--white); background: rgba(201,169,110,0.14); box-shadow: 0 0 40px rgba(201,169,110,0.35); letter-spacing: 0.36em; }
-.intro-vol-hint {
-  margin-top: 1.2rem; display: flex; align-items: center; gap: 0.6rem;
-  font-family: 'Space Mono', monospace; font-size: 0.48rem;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  color: rgba(240,247,242,0.4);
-  opacity: 0; transition: opacity 1s ease 0.6s;
-}
+.intro-vol-hint { margin-top: 1.2rem; display: flex; align-items: center; gap: 0.6rem; font-family: 'Space Mono', monospace; font-size: 0.48rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(240,247,242,0.4); opacity: 0; transition: opacity 1s ease 0.6s; }
 .intro-vol-hint.show { opacity: 1; }
 .intro-vol-hint i { color: var(--gold); font-size: 0.6rem; }
 
-/* Lightbox */
+/* LIGHTBOX */
 #lightbox { display: none; position: fixed; inset: 0; z-index: 5000; background: rgba(2,5,16,0.97); backdrop-filter: blur(16px); align-items: center; justify-content: center; }
 #lightbox.open { display: flex; }
 #lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; }
-#lb-close {
-  position: absolute; top: 2rem; right: 2rem;
-  background: none; border: 1px solid var(--border);
-  color: var(--muted); width: 2.5rem; height: 2.5rem;
-  cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s;
-}
+#lb-close { position: absolute; top: 2rem; right: 2rem; background: none; border: 1px solid var(--border); color: var(--muted); width: 2.5rem; height: 2.5rem; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
 #lb-close:hover { border-color: var(--gold); color: var(--gold); }
 
-/* Scroll progress + back-top */
-#scroll-progress {
-  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
-  background: linear-gradient(90deg, var(--gold), var(--gold2), var(--cyan));
-  z-index: 9000; transition: width 0.1s ease;
-  box-shadow: 0 0 12px rgba(201,160,48,0.5);
-}
-#back-top {
-  position: fixed; bottom: 1.8rem; left: 1.8rem; z-index: 900;
-  width: 2.8rem; height: 2.8rem; border-radius: 50%;
-  background: rgba(4,18,9,0.85); border: 1px solid rgba(201,160,48,0.4);
-  color: var(--gold); cursor: pointer; backdrop-filter: blur(12px);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.9rem; opacity: 0; pointer-events: none;
-  transition: all 0.4s; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
+/* SCROLL + BACK-TOP */
+#scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--gold), var(--gold2), var(--cyan)); z-index: 9000; transition: width 0.1s ease; box-shadow: 0 0 12px rgba(201,160,48,0.5); }
+#back-top { position: fixed; bottom: 1.8rem; left: 1.8rem; z-index: 900; width: 2.8rem; height: 2.8rem; border-radius: 50%; background: rgba(4,18,9,0.85); border: 1px solid rgba(201,160,48,0.4); color: var(--gold); cursor: pointer; backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; opacity: 0; pointer-events: none; transition: all 0.4s; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
 #back-top.show { opacity: 1; pointer-events: auto; }
 #back-top:hover { background: rgba(201,160,48,0.15); border-color: var(--gold); transform: translateY(-3px); }
 
-/* Cursor */
+/* CURSOR */
 #cursor-dot { display: none; }
-#cursor-ring {
-  width: 32px; height: 32px; border-radius: 50%;
-  border: 1px solid rgba(201,169,110,0.35);
-  position: fixed; z-index: 99998;
-  pointer-events: none;
-  transform: translate(-50%,-50%);
-  transition: width 0.4s cubic-bezier(.16,1,.3,1),
-              height 0.4s cubic-bezier(.16,1,.3,1),
-              border-color 0.3s,
-              transform 0.12s ease;
-}
+#cursor-ring { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(201,169,110,0.35); position: fixed; z-index: 99998; pointer-events: none; transform: translate(-50%,-50%); transition: width 0.4s cubic-bezier(.16,1,.3,1), height 0.4s cubic-bezier(.16,1,.3,1), border-color 0.3s, transform 0.12s ease; }
 @media (hover: none) { #cursor-ring { display: none; } }
 #cursor-ring.hover { width: 60px; height: 60px; border-color: var(--gold); background: rgba(201,169,110,0.06); }
 #cursor-ring.click { width: 20px; height: 20px; border-color: var(--cyan); border-width: 2px; }
-a, button, .svc-card, .link-card { cursor: pointer; }
+a, button, .svc-card, .link-card, .g-item { cursor: pointer; }
 
-/* Responsive */
+/* FILMSTRIP GALLERY */
+.filmstrip-wrap { position: relative; margin: 0 -2rem; padding: 1.2rem 0 1.8rem; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%); }
+.filmstrip-wrap::before, .filmstrip-wrap::after { content: ''; position: absolute; left: 0; right: 0; height: 14px; background: repeating-linear-gradient(90deg, transparent 0 14px, rgba(201,169,110,0.25) 14px 22px, transparent 22px 36px); pointer-events: none; z-index: 3; }
+.filmstrip-wrap::before { top: 0; } .filmstrip-wrap::after { bottom: 0; }
+.filmstrip-track { display: flex; gap: 1rem; padding: 0 2rem; cursor: grab; user-select: none; -webkit-user-select: none; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; -ms-overflow-style: none; }
+.filmstrip-track::-webkit-scrollbar { display: none; }
+.filmstrip-track.grabbing { cursor: grabbing !important; }
+.filmstrip-track.grabbing .g-item { pointer-events: none; }
+.g-item { flex: 0 0 auto; width: 280px; height: 380px; overflow: hidden; position: relative; background: rgba(4,18,9,0.6); border: 1px solid var(--border); border-radius: 6px; transition: border-color 0.35s, transform 0.35s, box-shadow 0.4s; backdrop-filter: blur(10px); box-shadow: 0 0 0 1px rgba(201,169,110,0.04), 0 18px 40px -22px rgba(0,0,0,0.7); scroll-snap-align: center; }
+.g-item::before { content: ''; position: absolute; inset: 0; border-radius: 6px; padding: 1px; background: linear-gradient(135deg, rgba(201,169,110,0.55), rgba(77,255,200,0.18) 45%, rgba(201,169,110,0.55)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; opacity: 0; transition: opacity 0.4s; z-index: 2; pointer-events: none; }
+.g-item:hover { border-color: rgba(201,169,110,0.55); transform: translateY(-4px); box-shadow: 0 24px 50px -18px rgba(0,0,0,0.85), 0 0 0 1px rgba(201,169,110,0.18); }
+.g-item:hover::before { opacity: 1; }
+.g-item img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.7s ease, filter 0.4s, opacity 0.5s; filter: saturate(0.75) contrast(1.02); background: rgba(4,18,9,0.6); opacity: 0; }
+.g-item:hover img { transform: scale(1.07); filter: saturate(1) contrast(1.05); }
+.g-item img.loaded { opacity: 1; }
+.g-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(2,12,6,0.85) 0%, transparent 55%); opacity: 0; transition: opacity 0.4s; display: flex; align-items: flex-end; justify-content: center; padding: 1rem; pointer-events: none; z-index: 2; }
+.g-item:hover .g-overlay { opacity: 1; }
+.g-overlay i { color: var(--gold); font-size: 1.1rem; }
+.filmstrip-hint { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-top: 1rem; font-family: 'Space Mono', monospace; font-size: 0.5rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); }
+
+/* RESPONSIVE */
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
   .hero-portrait-panel { order: -1; max-width: 320px; margin: 0 auto; }
@@ -852,6 +725,7 @@ a, button, .svc-card, .link-card { cursor: pointer; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .hud-tr, .hud-bl, .hud-br, .hud-vline { display: none; }
+  .g-item { width: 220px; height: 300px; }
 }
 @media (max-width: 600px) {
   section { padding: 4rem 0; }
@@ -861,24 +735,12 @@ a, button, .svc-card, .link-card { cursor: pointer; }
   .cta-btns { flex-direction: column; }
   .footer-inner { flex-direction: column; text-align: center; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  html { scroll-behavior: auto; }
-  #cursor-ring { display: none; }
-}
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px;
-}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } html { scroll-behavior: auto; } #cursor-ring { display: none; } }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-<!-- SEO -->
-<link rel="canonical" href="https://patrickdebreon.example/">
+<link rel="canonical" href="https://patrickdebreon.com/">
 <meta name="theme-color" content="#020c06">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Patrick Robert de Bréon">
@@ -886,7 +748,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Patrick Robert de Bréon · Cónsul Honorario de Francia en Chiapas">
 <meta property="og:description" content="Vocal del Consejo Directivo de la Alianza Francesa de San Cristóbal y Cónsul Honorario de Francia en Chiapas. Enlace consular, asistencia a connacionales y vínculos institucionales Francia-México.">
-<meta property="og:image" content="Patrick_foto_oficial_1.jpg">
+<meta property="og:image" content="10.png">
 <meta property="og:image:alt" content="Patrick Robert de Bréon — Cónsul Honorario de Francia en Chiapas">
 <meta property="og:locale" content="es_MX">
 <meta property="og:locale:alternate" content="fr_FR">
@@ -894,17 +756,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Patrick Robert de Bréon · Cónsul Honorario de Francia en Chiapas">
 <meta name="twitter:description" content="Vocal del Consejo Directivo de la Alianza Francesa de San Cristóbal · Enlace consular Francia-Chiapas.">
-<meta name="twitter:image" content="Patrick_foto_oficial_1.jpg">
+<meta name="twitter:image" content="10.png">
 
 <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="18" fill="%23020c06"/><text x="50" y="68" font-family="Georgia,serif" font-size="48" fill="%23e8be50" text-anchor="middle">PB</text></svg>'>
 
-<!-- JSON-LD Person -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Patrick Robert de Bréon",
-  "image": "Patrick_foto_oficial_1.jpg",
+  "image": "10.png",
   "jobTitle": "Cónsul Honorario de Francia en Chiapas / Vocal del Consejo Directivo, Alliance Française San Cristóbal",
   "worksFor": {
     "@type": "Organization",
@@ -944,14 +805,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 <!-- ═══ VIDEO INTRO ═══ -->
 <div id="video-intro">
   <video id="intro-video" autoplay muted playsinline loop
-         data-src-h="Patrick_intro_horizontal.mp4"
-         data-src-v="Patrick_intro_horizontal.mp4"
+         data-src-h="VidéoConsulat.mp4"
+         data-src-v="VidéoConsulat.mp4"
          preload="auto"></video>
 
   <div class="intro-brand">
     <div class="intro-monogram" id="intro-monogram">PB</div>
     <div class="intro-title" id="intro-title">Patrick Robert de Bréon</div>
-    <div class="intro-sub" id="intro-sub">Cónsul Honorario de Francia · Chiapas · Vocal del Consejo Directivo · Alliance Française SCLC</div>
+    <div class="intro-sub" id="intro-sub">Cónsul Honorario de Francia · Chiapas · Vocal del Consejo Directivo · Alliance Française SCSC</div>
 
     <button class="intro-enter-btn" id="intro-enter-btn" onclick="enterSite()">
       <span class="enter-txt">Entrer&nbsp; ·&nbsp; Acceder&nbsp; ·&nbsp; Enter</span>
@@ -998,6 +859,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   <a href="#about" onclick="closeMob()" data-es="Perfil" data-fr="Profil" data-en="Profile">Perfil</a>
   <a href="#historia" onclick="closeMob()" data-es="Historia" data-fr="Histoire" data-en="History">Historia</a>
   <a href="#services" onclick="closeMob()" data-es="Servicios" data-fr="Services" data-en="Services">Servicios</a>
+  <a href="#gallery" onclick="closeMob()" data-es="Galería" data-fr="Galerie" data-en="Gallery">Galería</a>
   <a href="#links" onclick="closeMob()" data-es="Enlaces" data-fr="Liens" data-en="Links">Enlaces</a>
   <a href="#video-reel" onclick="closeMob()" data-es="Vídeo" data-fr="Vidéo" data-en="Video">Vídeo</a>
   <a href="#contact" onclick="closeMob()" data-es="Contacto" data-fr="Contact" data-en="Contact">Contacto</a>
@@ -1016,6 +878,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     <li><a href="#about" data-es="Perfil" data-fr="Profil" data-en="Profile">Perfil</a></li>
     <li><a href="#historia" data-es="Historia" data-fr="Histoire" data-en="History">Historia</a></li>
     <li><a href="#services" data-es="Servicios" data-fr="Services" data-en="Services">Servicios</a></li>
+    <li><a href="#gallery" data-es="Galería" data-fr="Galerie" data-en="Gallery">Galería</a></li>
     <li><a href="#links" data-es="Enlaces" data-fr="Liens" data-en="Links">Enlaces</a></li>
     <li><a href="#video-reel" data-es="Vídeo" data-fr="Vidéo" data-en="Video">Vídeo</a></li>
     <li><a href="#contact" data-es="Contacto" data-fr="Contact" data-en="Contact">Contacto</a></li>
@@ -1033,7 +896,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   <div class="hud-corner hud-tl">CONSULAT HONORAIRE DE FRANCE<br>CHIAPAS · MX · LAT:16.75 / LON:-93.11</div>
   <div class="hud-corner hud-tr">EMBASSY · MEXICO CITY<br>STATUS: ACTIVE</div>
   <div class="hud-corner hud-bl">FR · ES · EN</div>
-  <div class="hud-corner hud-br">VOCAL · CONSEIL DIRECTIF<br>ALLIANCE FRANÇAISE · SCLC</div>
+  <div class="hud-corner hud-br">VOCAL · CONSEIL DIRECTIF<br>ALLIANCE FRANÇAISE · SCSC</div>
   <div class="hud-vline l"></div>
   <div class="hud-vline r"></div>
 
@@ -1047,7 +910,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
           Patrick Robert
           <em>de Bréon</em>
         </h1>
-        <!-- French tricolor accent band -->
         <div class="tricolor-band" aria-hidden="true">
           <span class="bl"></span><span class="wh"></span><span class="rd"></span>
         </div>
@@ -1080,9 +942,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
         <div class="portrait-hud bracket">
           <div class="portrait-inner" id="portraitCarousel">
             <div class="portrait-scan"></div>
+            <!-- Fotografía principal (10.png) -->
             <img class="portrait-slide active"
-                 src="Patrick_foto_oficial_1.jpg"
+                 src="10.png"
                  alt="Patrick Robert de Bréon — Cónsul Honorario"
+                 style="object-fit:cover;object-position:center top"
+                 onerror="this.style.display='none'">
+            <img class="portrait-slide"
+                 src="Patrick_foto_oficial_1.jpg"
+                 alt="Patrick Robert de Bréon"
                  style="object-fit:cover;object-position:center top"
                  onerror="this.style.display='none'">
             <img class="portrait-slide"
@@ -1092,11 +960,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
                  onerror="this.style.display='none'">
             <img class="portrait-slide"
                  src="Patrick_foto_oficial_3.jpg"
-                 alt="Patrick Robert de Bréon"
-                 style="object-fit:cover;object-position:center top"
-                 onerror="this.style.display='none'">
-            <img class="portrait-slide"
-                 src="Patrick_foto_oficial_4.jpg"
                  alt="Patrick Robert de Bréon"
                  style="object-fit:cover;object-position:center top"
                  onerror="this.style.display='none'">
@@ -1228,8 +1091,28 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   </div>
 </section>
 
+<!-- ═══ GALLERY FILMSTRIP ═══ -->
+<section id="gallery" class="alt z10">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-es="Momentos y proyectos" data-fr="Moments et projets" data-en="Moments & projects">Momentos y proyectos</p>
+      <h2 class="sec-title" style="margin-top:0.8rem;"><em data-es="Galería institucional" data-fr="Galerie institutionnelle" data-en="Institutional gallery">Galería institucional</em></h2>
+    </div>
+
+    <div class="filmstrip-wrap reveal">
+      <div class="filmstrip-track" id="filmstrip">
+        <!-- Renderizado dinámico por JS de 1.png a 26.png -->
+      </div>
+    </div>
+    <div class="filmstrip-hint reveal">
+      <i class="fa fa-hand-pointer"></i>
+      <span data-es="Arrastra para explorar" data-fr="Glissez pour explorer" data-en="Drag to explore">Arrastra para explorar</span>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ USEFUL LINKS ═══ -->
-<section id="links" class="alt z10">
+<section id="links" class="z10">
   <div class="container">
     <div class="sec-head reveal">
       <p class="eyebrow" data-es="Enlaces oficiales" data-fr="Liens officiels" data-en="Official links">Enlaces oficiales</p>
@@ -1270,7 +1153,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 </section>
 
 <!-- ═══ VIDEO REEL ═══ -->
-<section id="video-reel" class="z10">
+<section id="video-reel" class="alt z10">
   <div class="container">
     <div class="sec-head reveal" style="text-align:center;margin-bottom:3rem;">
       <p class="eyebrow" style="justify-content:center"
@@ -1289,8 +1172,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
       <div class="v-corner br"></div>
 
       <video id="site-video" preload="metadata" playsinline muted
-             poster="Patrick_foto_oficial_1.jpg">
-        <source src="Patrick_intro_horizontal.mp4" type="video/mp4">
+             poster="10.png">
+        <source src="VidéoConsulat.mp4" type="video/mp4">
       </video>
 
       <div class="video-play-overlay" id="video-overlay" onclick="playVideo()">
@@ -1531,6 +1414,23 @@ function initVanta() {
   }
 })(20);
 
+/* ── RENDERIZADO DE GALERÍA (1 AL 26) ──────── */
+window.addEventListener('DOMContentLoaded', function() {
+  const track = document.getElementById('filmstrip');
+  if (track) {
+    let galleryHTML = '';
+    for (let i = 1; i <= 26; i++) {
+      galleryHTML += `
+        <div class="g-item" onclick="openLB('${i}.png', 'Patrick Robert de Bréon — Galería ${i}')">
+          <img loading="lazy" src="${i}.png" alt="Galería ${i}" onload="this.classList.add('loaded')" onerror="this.closest('.g-item').style.display='none'">
+          <div class="g-overlay"><i class="fa fa-expand"></i></div>
+        </div>
+      `;
+    }
+    track.innerHTML = galleryHTML + galleryHTML;
+  }
+});
+
 /* ── NAV ─────────────────────────────────── */
 window.addEventListener('scroll', () => {
   var n = document.getElementById('nav');
@@ -1606,7 +1506,6 @@ function pickTime(btn, valId) {
   if (inp) inp.value = btn.textContent.trim();
 }
 
-/* Set min date */
 document.querySelectorAll('input[type="date"]').forEach(d => d.min = new Date().toISOString().split('T')[0]);
 
 /* ══ EMAILJS ══ */
@@ -1685,6 +1584,24 @@ if (_fc) _fc.addEventListener('submit', function(e) {
   }, 'cita-ok', this);
 });
 
+/* ── FILMSTRIP DRAGGABLE ── */
+window.addEventListener('DOMContentLoaded', () => {
+  const slider = document.getElementById('filmstrip');
+  let isDown = false; let startX; let scrollLeft;
+  if(!slider) return;
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true; slider.classList.add('grabbing');
+    startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft;
+  });
+  slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('grabbing'); });
+  slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('grabbing'); });
+  slider.addEventListener('mousemove', (e) => {
+    if(!isDown) return; e.preventDefault();
+    const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2;
+    slider.scrollLeft = scrollLeft - walk;
+  });
+});
+
 /* ── CURSOR ─────────────────── */
 const curDot  = document.getElementById('cursor-dot');
 const curRing = document.getElementById('cursor-ring');
@@ -1700,7 +1617,7 @@ function animateCursor() {
   requestAnimationFrame(animateCursor);
 }
 animateCursor();
-document.querySelectorAll('a, button, .svc-card, .link-card').forEach(el => {
+document.querySelectorAll('a, button, .svc-card, .link-card, .g-item').forEach(el => {
   el.addEventListener('mouseenter', () => { if (curRing) curRing.classList.add('hover'); });
   el.addEventListener('mouseleave', () => { if (curRing) curRing.classList.remove('hover'); });
 });

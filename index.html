@@ -208,16 +208,38 @@ body::after {
 .hero-banner-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center 25%;
-  filter: contrast(102%) saturate(95%);
-  animation: fadeIn 1.4s 0.2s ease both;
+  object-fit: cover; object-position: center center;
+  filter: contrast(102%) saturate(98%);
+  opacity: 0;
+  transition: opacity 1s ease;
 }
-.hero-banner::after {
-  content: ''; position: absolute; left: 0; right: 0; bottom: 0;
-  height: 45%;
-  background: linear-gradient(to top, rgba(244,237,226,0.55) 0%, transparent 100%);
-  pointer-events: none;
+.hero-banner-img.active { opacity: 1; }
+.hero-banner-dots {
+  position: absolute; left: 50%; bottom: 1.2rem;
+  transform: translateX(-50%);
+  display: flex; gap: 0.55rem;
+  z-index: 3;
 }
+.hbd {
+  width: 32px; height: 4px;
+  background: rgba(26,34,56,0.25);
+  border: none; cursor: pointer; padding: 0;
+  transition: background 0.3s ease, width 0.3s ease;
+}
+.hbd.active { background: var(--accent); width: 48px; }
+.hbd:hover { background: var(--accent2); }
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.hero-text-compact { margin-top: 2rem; text-align: center; }
+.hero-text-compact .hero-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-size: clamp(1.1rem, 2vw, 1.45rem);
+  color: var(--ink-soft); margin-bottom: 1.8rem;
+}
+.hero-text-compact .hero-cta { justify-content: center; }
 .hero-banner::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
   background: linear-gradient(90deg, var(--fr-blue) 0%, var(--fr-blue) 33.33%, var(--white) 33.33%, var(--white) 66.66%, var(--fr-red) 66.66%, var(--fr-red) 100%);
@@ -808,8 +830,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 <!-- ═══ VIDEO INTRO ═══ -->
 <div id="video-intro">
   <video id="intro-video" autoplay muted playsinline loop
-         data-src-h="VidéoConsulat.mp4"
-         data-src-v="VidéoConsulat.mp4"
+         data-src-h="Patrick_intro_horizontal.mp4"
+         data-src-v="Patrick_intro_horizontal.mp4"
          preload="auto"></video>
 
   <div class="intro-brand">
@@ -896,11 +918,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 <!-- ═══ HERO — full-width banner ═══ -->
 <section id="hero" class="z10">
   <div class="container" style="max-width:1320px;">
-    <div class="hero-banner">
+    <div class="hero-banner" id="hero-banner-slider">
+      <img class="hero-banner-img active"
+           src="11.png"
+           alt="Patrick Robert de Bréon — Cónsul Honorario de Francia en Chiapas">
       <img class="hero-banner-img"
-           src="Patrick_foto_oficial_1.jpg"
-           alt="Patrick Robert de Bréon — Cónsul Honorario de Francia en Chiapas"
-           onerror="this.onerror=null; this.src='10.png';">
+           src="10.png"
+           alt="Patrick Robert de Bréon — Alliance Française San Cristóbal">
+      <div class="hero-banner-dots" aria-hidden="true">
+        <button class="hbd active" data-i="0"></button>
+        <button class="hbd" data-i="1"></button>
+      </div>
     </div>
 
     <div class="banner-strip">
@@ -923,18 +951,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     </div>
   </div>
 
-  <div class="hero-text">
-    <div class="hero-pre">
-      <span data-es="Consulado Honorario · República Francesa" data-fr="Consulat Honoraire · République Française" data-en="Honorary Consulate · French Republic">Consulat Honoraire · République Française</span>
-    </div>
-    <h1 class="hero-name">
-      Patrick Robert
-      <em>de Bréon</em>
-    </h1>
-    <div class="tricolor-band" aria-hidden="true">
-      <span class="bl"></span><span class="wh"></span><span class="rd"></span>
-    </div>
-    <p class="hero-role" data-es="Cónsul Honorario de Francia en Chiapas / Vocal del Consejo Directivo" data-fr="Consul Honoraire de France au Chiapas / Membre du Conseil de Direction" data-en="Honorary Consul of France in Chiapas / Board Member">Cónsul Honorario de Francia en Chiapas / Vocal del Consejo Directivo</p>
+  <div class="hero-text hero-text-compact">
+    <h1 class="sr-only">Patrick Robert de Bréon — Cónsul Honorario de Francia en Chiapas</h1>
     <p class="hero-tagline" data-es="Puente institucional entre Francia y Chiapas" data-fr="Pont institutionnel entre la France et le Chiapas" data-en="Institutional bridge between France and Chiapas">
       Puente institucional entre Francia y Chiapas
     </p>
@@ -1676,6 +1694,31 @@ document.addEventListener('DOMContentLoaded', function() {
     if (vid.paused) { vid.play(); overlay.classList.add('hidden'); }
     else { vid.pause(); }
   });
+});
+
+/* ══ HERO BANNER SLIDER ══ */
+window.addEventListener('DOMContentLoaded', function() {
+  var slider = document.getElementById('hero-banner-slider');
+  if (!slider) return;
+  var imgs = slider.querySelectorAll('.hero-banner-img');
+  var dots = slider.querySelectorAll('.hbd');
+  if (imgs.length < 2) return;
+  var idx = 0;
+  function show(i) {
+    idx = (i + imgs.length) % imgs.length;
+    imgs.forEach(function(im, k){ im.classList.toggle('active', k === idx); });
+    dots.forEach(function(d, k){ d.classList.toggle('active', k === idx); });
+  }
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){
+      show(parseInt(d.getAttribute('data-i'), 10));
+      restart();
+    });
+  });
+  var timer;
+  function tick(){ show(idx + 1); }
+  function restart(){ clearInterval(timer); timer = setInterval(tick, 5500); }
+  restart();
 });
 
 /* ══ VIDEO INTRO ══ */

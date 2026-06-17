@@ -1520,36 +1520,71 @@ document.querySelectorAll('input[type="date"]').forEach(d => d.min = new Date().
 const EMAILJS_SERVICE  = 'service_k9b1j7y';
 const EMAILJS_TEMPLATE = 'template_sp4hl5f';
 const EMAILJS_KEY      = '7FPd-e34G4AgVK5YA';
+const CONSUL_EMAIL_PRIMARY = 'tuxtlagutierrez.chfrance@gmail.com';
 
 if (EMAILJS_KEY && !EMAILJS_KEY.startsWith('TU_')) { try { emailjs.init(EMAILJS_KEY); } catch(e){} }
 
+function buildMailtoFallback(params) {
+  const subject = encodeURIComponent(params.subject || 'Mensaje al Consulado Honorario de Francia · Chiapas');
+  const lines = [
+    'Nombre: '    + (params.nombre   || '—'),
+    'Email: '     + (params.email    || '—'),
+    'Teléfono: '  + (params.telefono || '—'),
+    'Ciudad: '    + (params.ciudad   || '—'),
+    'Tipo: '      + (params.tipo     || '—'),
+    'Fecha: '     + (params.fecha    || '—'),
+    'Horario: '   + (params.horario  || '—'),
+    '',
+    'Mensaje:',
+    params.message || '—'
+  ];
+  const body = encodeURIComponent(lines.join('\n'));
+  return 'mailto:' + CONSUL_EMAIL_PRIMARY
+       + '?subject=' + subject
+       + '&body=' + body;
+}
+
 async function sendEmail(params, successId, formEl) {
+  const fromEmail = params.email || '';
   const payload = {
     subject:     params.subject    || 'Nuevo mensaje — Consulado Honorario de Francia · Chiapas',
     from_name:   params.nombre     || params.name || 'Sin nombre',
-    from_email:  params.email      || '',
+    from_email:  fromEmail,
+    reply_to:    fromEmail,
+    user_email:  fromEmail,
     telefono:    params.telefono   || '—',
     ciudad:      params.ciudad     || '—',
     tipo:        params.tipo       || 'Contacto general',
     fecha:       params.fecha      || '—',
     horario:     params.horario    || '—',
     message:     params.message    || params.mensaje || '—',
-    to_email:    'tuxtlagutierrez.chfrance@gmail.com'
+    to_email:    CONSUL_EMAIL_PRIMARY,
+    sent_at:     new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })
   };
 
   try {
     const result = await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, payload);
-    if (result.status === 200) {
+    if (result && result.status === 200) {
       if (formEl) {
         formEl.reset();
         formEl.querySelectorAll('.time-slot').forEach(b => b.classList.remove('sel'));
       }
       var s = document.getElementById(successId);
       if (s) s.classList.add('show');
-    } else { throw new Error('EmailJS error'); }
+      return;
+    }
+    throw new Error('EmailJS status ' + (result && result.status));
   } catch(err) {
     console.error('EmailJS error:', err);
-    if (confirm('Hubo un problema con el formulario.\n¿Desea llamar al Consulado?')) {
+    const mailtoUrl = buildMailtoFallback(params);
+    const choice = confirm(
+      'No pudimos enviar el formulario automáticamente.\n\n' +
+      '¿Desea abrir su programa de correo para enviar el mensaje manualmente al Consulado?\n\n' +
+      '(Cancelar para llamar por teléfono)'
+    );
+    if (choice) {
+      window.location.href = mailtoUrl;
+    } else {
       window.open('tel:+529612033909', '_self');
     }
   }

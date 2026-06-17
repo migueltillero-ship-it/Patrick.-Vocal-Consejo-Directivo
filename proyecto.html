@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier del Proyecto · Patrick Robert de Bréon — Consulado Honorario</title>
+<meta name="description" content="Documentación institucional del sitio web del Cónsul Honorario de Francia en Chiapas · arquitectura, identidad visual, funcionalidades y plan de mantenimiento.">
+<meta name="theme-color" content="#f4ede2">
+<link rel="icon" href="logo_consulado_francia.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f4ede2;
+  --bg-alt:#ece3d2;
+  --surface:#ffffff;
+  --panel:rgba(255,255,255,0.78);
+  --ink:#1a2238;
+  --ink-soft:#4a5470;
+  --muted:#8a8f9c;
+  --accent:#002395;
+  --accent2:#ED2939;
+  --gold:#b08d3f;
+  --rule:rgba(26,34,56,0.12);
+  --rule-strong:rgba(26,34,56,0.22);
+  --shadow:0 8px 28px rgba(26,34,56,0.08);
+  --shadow-lg:0 22px 60px rgba(26,34,56,0.14);
+  --fr-blue:#002395;
+  --fr-red:#ED2939;
+  --white:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Syne',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-size:1.05rem;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--accent);color:#fff}
+
+.container{max-width:1160px;margin:0 auto;padding:0 2rem}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.15;color:var(--ink)}
+h1 em,h2 em,h3 em{font-style:italic;color:var(--accent)}
+p{margin-bottom:1rem}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(0,35,149,0.25);transition:color .2s,border-color .2s}
+a:hover{color:var(--accent2);border-bottom-color:var(--accent2)}
+
+/* ───── HEADER / COVER ───── */
+.cover{
+  position:relative;
+  padding:5rem 0 3.5rem;
+  background:linear-gradient(180deg,#ece3d2 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--rule);
+  overflow:hidden;
+}
+.cover::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:6px;
+  background:linear-gradient(90deg,var(--fr-blue) 0 33.33%,var(--white) 33.33% 66.66%,var(--fr-red) 66.66% 100%);
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--accent);
+  font-weight:700;
+  margin-bottom:1.2rem;
+}
+.cover h1{
+  font-size:clamp(2.6rem,5.5vw,4.4rem);
+  margin-bottom:1rem;
+  letter-spacing:-0.01em;
+}
+.cover .lede{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(1.15rem,2vw,1.5rem);
+  color:var(--ink-soft);
+  max-width:780px;
+  margin-bottom:2rem;
+}
+.cover-meta{
+  display:flex;flex-wrap:wrap;gap:2rem 3rem;
+  padding-top:1.8rem;
+  border-top:1px solid var(--rule);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+}
+.cover-meta div{display:flex;flex-direction:column;gap:0.3rem}
+.cover-meta .k{color:var(--muted);font-weight:600}
+.cover-meta .v{color:var(--ink);font-weight:700}
+
+/* ───── TOC ───── */
+.toc{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  padding:2rem 2.5rem;
+  margin:3rem auto;
+  max-width:880px;
+  box-shadow:var(--shadow);
+}
+.toc h3{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:1.4rem;
+}
+.toc ol{list-style:none;counter-reset:tocn}
+.toc li{
+  counter-increment:tocn;
+  padding:0.55rem 0;
+  border-bottom:1px dashed var(--rule);
+  display:flex;align-items:baseline;gap:1rem;
+}
+.toc li:last-child{border-bottom:none}
+.toc li::before{
+  content:counter(tocn,decimal-leading-zero);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;
+  color:var(--accent);
+  font-weight:700;
+  min-width:32px;
+}
+.toc a{border:none;color:var(--ink);font-weight:500}
+.toc a:hover{color:var(--accent)}
+
+/* ───── SECTIONS ───── */
+section{padding:4.5rem 0;position:relative}
+section.alt{background:var(--bg-alt)}
+section::after{
+  content:'';display:block;
+  width:65%;height:3px;margin:4rem auto 0;
+  background:linear-gradient(90deg,var(--fr-blue) 0 33.33%,transparent 33.33% 66.66%,var(--fr-red) 66.66% 100%);
+  opacity:0.5;
+}
+section:last-of-type::after{display:none}
+
+.sec-head{margin-bottom:2.8rem;max-width:780px}
+.sec-head .eyebrow{margin-bottom:0.8rem}
+.sec-head h2{
+  font-size:clamp(2rem,4vw,3rem);
+  margin-bottom:0.8rem;
+}
+.sec-head .desc{
+  color:var(--ink-soft);
+  font-size:1.1rem;
+}
+
+/* ───── CARDS ───── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media (max-width:880px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--rule);
+  padding:2rem;
+  position:relative;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+  border-color:var(--rule-strong);
+}
+.card .num{
+  position:absolute;top:1rem;right:1.2rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.2em;
+  color:var(--muted);font-weight:700;
+}
+.card h3{font-size:1.4rem;margin-bottom:0.8rem}
+.card .badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--fr-blue);
+  background:rgba(0,35,149,0.07);
+  padding:0.3rem 0.7rem;
+  margin-bottom:1rem;
+  font-weight:700;
+}
+.card p{margin-bottom:0.5rem;color:var(--ink-soft);font-size:0.97rem}
+.card ul{margin:0.6rem 0 0 1.1rem;color:var(--ink-soft);font-size:0.97rem}
+.card ul li{margin-bottom:0.3rem}
+
+/* ───── CALLOUT ───── */
+.callout{
+  background:rgba(0,35,149,0.05);
+  border-left:4px solid var(--accent);
+  padding:1.5rem 1.8rem;
+  margin:2rem 0;
+  font-style:italic;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;
+  color:var(--ink);
+}
+.callout.red{background:rgba(237,41,57,0.05);border-left-color:var(--accent2)}
+
+/* ───── CODE / EXAMPLES ───── */
+.code{
+  background:#1a2238;
+  color:#e8e2d1;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.82rem;
+  line-height:1.65;
+  padding:1.5rem 1.8rem;
+  overflow-x:auto;
+  margin:1.5rem 0;
+  border-radius:2px;
+  position:relative;
+}
+.code::before{
+  content:attr(data-lang);
+  position:absolute;top:0.6rem;right:1rem;
+  font-size:0.6rem;letter-spacing:0.2em;
+  color:#8b94b8;
+  text-transform:uppercase;
+}
+.code .k{color:#7fb2ff}
+.code .s{color:#f4d58d}
+.code .c{color:#7d8aaa;font-style:italic}
+.code .a{color:#b3d9ff}
+.code .t{color:#ffb4c1}
+
+/* ───── PALETTE SWATCHES ───── */
+.palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin:2rem 0}
+.swatch{
+  border:1px solid var(--rule);
+  background:var(--surface);
+  overflow:hidden;
+}
+.swatch .chip{height:88px}
+.swatch .info{padding:0.8rem 1rem}
+.swatch .name{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;font-weight:700;color:var(--ink)}
+.swatch .hex{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted)}
+
+/* ───── METRICS ───── */
+.metrics{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--rule);
+  background:var(--surface);
+  margin:2rem 0;
+}
+.metric{
+  padding:1.8rem 1.5rem;
+  border-right:1px solid var(--rule);
+  text-align:center;
+}
+.metric:last-child{border-right:none}
+.metric .n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.6rem;
+  color:var(--accent);
+  font-weight:600;
+  display:block;
+  line-height:1;
+}
+.metric .l{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--muted);margin-top:0.6rem;display:block;font-weight:700;
+}
+@media (max-width:780px){.metrics{grid-template-columns:repeat(2,1fr)}.metric:nth-child(2){border-right:none}.metric:nth-child(1),.metric:nth-child(2){border-bottom:1px solid var(--rule)}}
+
+/* ───── TABLE ───── */
+.tbl{
+  width:100%;
+  border-collapse:collapse;
+  margin:1.5rem 0;
+  background:var(--surface);
+  font-size:0.95rem;
+}
+.tbl th{
+  text-align:left;
+  padding:0.9rem 1.1rem;
+  background:var(--bg-alt);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--ink);font-weight:700;
+  border-bottom:2px solid var(--rule-strong);
+}
+.tbl td{
+  padding:0.85rem 1.1rem;
+  border-bottom:1px solid var(--rule);
+  color:var(--ink-soft);
+  vertical-align:top;
+}
+.tbl td:first-child{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--ink);font-weight:600}
+.tbl tr:last-child td{border-bottom:none}
+
+/* ───── EXAMPLE FRAMES ───── */
+.example{
+  margin:2rem 0;
+  border:1px solid var(--rule);
+  background:var(--surface);
+  overflow:hidden;
+}
+.example-caption{
+  padding:0.9rem 1.4rem;
+  background:var(--bg-alt);
+  border-bottom:1px solid var(--rule);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--ink);font-weight:700;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.example-caption .tag{
+  color:var(--accent);
+  font-weight:700;
+}
+.example img{width:100%;display:block}
+.example-body{padding:1.5rem 1.8rem;color:var(--ink-soft);font-size:0.95rem}
+
+/* ───── TIMELINE ───── */
+.timeline{position:relative;margin:2rem 0;padding-left:2rem;border-left:2px solid var(--accent)}
+.tl-item{padding:0 0 1.8rem 1.5rem;position:relative}
+.tl-item::before{
+  content:'';position:absolute;left:-2.55rem;top:0.4rem;
+  width:1rem;height:1rem;border-radius:50%;
+  background:var(--bg);border:3px solid var(--accent);
+}
+.tl-item .when{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.2em;
+  color:var(--accent2);text-transform:uppercase;font-weight:700;
+  margin-bottom:0.3rem;
+}
+.tl-item h4{font-size:1.2rem;margin-bottom:0.4rem;color:var(--ink)}
+.tl-item p{color:var(--ink-soft);font-size:0.95rem;margin:0}
+
+/* ───── CTA BAR ───── */
+.cta-bar{
+  background:var(--ink);
+  color:#e8e2d1;
+  padding:4rem 0;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.cta-bar::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--fr-blue) 0 33.33%,var(--white) 33.33% 66.66%,var(--fr-red) 66.66% 100%);
+}
+.cta-bar h2{color:#fff;margin-bottom:1rem}
+.cta-bar p{color:#bcc4dc;max-width:600px;margin:0 auto 2rem}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:0.7rem;
+  padding:1.1rem 2.4rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+  font-weight:700;
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:all .25s;
+  text-decoration:none;
+}
+.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.btn-primary:hover{background:#c41f2e;border-color:#c41f2e;color:#fff}
+.btn-ghost{background:transparent;color:#fff;border-color:#fff}
+.btn-ghost:hover{background:#fff;color:var(--ink)}
+.cta-bar a{border:none}
+
+/* ───── FOOTER ───── */
+footer{
+  background:var(--bg-alt);
+  padding:3rem 0 2rem;
+  border-top:1px solid var(--rule);
+}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;margin-bottom:2.5rem}
+@media (max-width:780px){.foot-grid{grid-template-columns:1fr}}
+.foot-grid h4{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink);margin-bottom:1rem;font-weight:700}
+.foot-grid p,.foot-grid li{color:var(--ink-soft);font-size:0.92rem;line-height:1.7}
+.foot-grid ul{list-style:none}
+.foot-stripe{
+  height:4px;
+  background:linear-gradient(90deg,var(--fr-blue) 0 33.33%,var(--white) 33.33% 66.66%,var(--fr-red) 66.66% 100%);
+  margin-bottom:1.5rem;
+}
+.foot-meta{
+  text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);
+  padding-top:1.5rem;
+  border-top:1px solid var(--rule);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ COVER ═══ -->
+<header class="cover">
+  <div class="container">
+    <p class="eyebrow">Dossier institucional · Junio 2026</p>
+    <h1>Sitio web del <em>Cónsul Honorario</em><br>de Francia en Chiapas</h1>
+    <p class="lede">Una plataforma digital institucional, multilingüe y accesible, diseñada para presentar la figura del Cónsul Honorario, su rol en la Alianza Francesa de San Cristóbal y los servicios consulares disponibles para la comunidad francófona del estado.</p>
+
+    <div class="cover-meta">
+      <div><span class="k">Titular</span><span class="v">Patrick Robert de Bréon</span></div>
+      <div><span class="k">Rol</span><span class="v">Cónsul Honoraire · Vocal</span></div>
+      <div><span class="k">Jurisdicción</span><span class="v">Chiapas · MX</span></div>
+      <div><span class="k">Estado</span><span class="v">Producción</span></div>
+      <div><span class="k">Idiomas</span><span class="v">ES · FR · EN</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <nav class="toc" aria-label="Tabla de contenidos">
+    <h3>Tabla de contenidos</h3>
+    <ol>
+      <li><a href="#vision">Visión institucional y objetivos</a></li>
+      <li><a href="#identidad">Identidad visual</a></li>
+      <li><a href="#arquitectura">Arquitectura de información</a></li>
+      <li><a href="#funcionalidades">Funcionalidades clave</a></li>
+      <li><a href="#ejemplos">Ejemplos reales del sitio</a></li>
+      <li><a href="#tecnologia">Tecnología y stack</a></li>
+      <li><a href="#accesibilidad">Accesibilidad y ergonomía</a></li>
+      <li><a href="#mantenimiento">Mantenimiento y operación</a></li>
+      <li><a href="#contribucion">Contribución al Consulado</a></li>
+    </ol>
+  </nav>
+</div>
+
+<!-- ═══ 01 · VISIÓN ═══ -->
+<section id="vision">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">01 · Visión</p>
+      <h2><em>Visión institucional</em> y objetivos</h2>
+      <p class="desc">El sitio nace como respuesta a una necesidad concreta: ofrecer un punto de contacto digital permanente, profesional y multilingüe que represente con dignidad la figura consular francesa en Chiapas.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <span class="num">·01</span>
+        <span class="badge">Representación</span>
+        <h3>Imagen oficial</h3>
+        <p>Presentar al Cónsul Honorario con la solemnidad y código visual que corresponde a una misión diplomática francesa: paleta tricolor, tipografía clásica y disposición editorial.</p>
+      </div>
+      <div class="card">
+        <span class="num">·02</span>
+        <span class="badge">Servicio</span>
+        <h3>Asistencia consular</h3>
+        <p>Permitir a ciudadanos franceses en Chiapas solicitar citas, contactar al Consulado y conocer las áreas de competencia sin depender de canales informales.</p>
+      </div>
+      <div class="card">
+        <span class="num">·03</span>
+        <span class="badge">Cultura</span>
+        <h3>Difusión francófona</h3>
+        <p>Servir como puente con la Alianza Francesa de San Cristóbal, comunicando actividades culturales, educativas y comunitarias del Consejo Directivo.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      «Un sitio web institucional no es un folleto digital — es la primera embajada que un ciudadano encuentra cuando busca a su país desde el extranjero. Debe inspirar la misma confianza que el sello consular.»
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 · IDENTIDAD VISUAL ═══ -->
+<section id="identidad" class="alt">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">02 · Identidad visual</p>
+      <h2>Una estética <em>institucional francesa</em> en clave editorial</h2>
+      <p class="desc">El diseño se inspira en la tradición editorial de la prensa institucional francesa (<em>Le Monde</em>, <em>Diplomatie</em>) reinterpretada en clave digital ergonómica para una audiencia adulta multilingüe.</p>
+    </div>
+
+    <h3 style="font-size:1.6rem;margin-bottom:0.4rem">Paleta cromática</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">Fondo marfil institucional sobre el que se imprimen los acentos tricolores de la República, con tinta navy de alta legibilidad.</p>
+
+    <div class="palette">
+      <div class="swatch"><div class="chip" style="background:#f4ede2"></div><div class="info"><div class="name">CREMA</div><div class="hex">#f4ede2</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#ece3d2"></div><div class="info"><div class="name">MARFIL</div><div class="hex">#ece3d2</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#1a2238"></div><div class="info"><div class="name">TINTA NAVY</div><div class="hex">#1a2238</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#002395"></div><div class="info"><div class="name">AZUL FRANCIA</div><div class="hex">#002395</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#ED2939"></div><div class="info"><div class="name">ROJO FRANCIA</div><div class="hex">#ED2939</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#b08d3f"></div><div class="info"><div class="name">ORO LUXE</div><div class="hex">#b08d3f</div></div></div>
+    </div>
+
+    <h3 style="font-size:1.6rem;margin:2.5rem 0 0.4rem">Sistema tipográfico</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">Tres familias en jerarquía clara: <strong>Cormorant Garamond</strong> para títulos editoriales con cursiva diplomática, <strong>Syne</strong> para texto corrido con fuerza institucional, y <strong>JetBrains Mono</strong> para metadatos, eyebrows y código.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Familia</th><th>Uso</th><th>Tamaño base</th><th>Característica</th></tr></thead>
+      <tbody>
+        <tr><td>Cormorant Garamond</td><td>H1, H2, citas, tagline</td><td>2-4.4 rem</td><td>Cursiva ediorial francesa</td></tr>
+        <tr><td>Syne</td><td>Cuerpo, navegación</td><td>1.05 rem</td><td>Sans contemporánea con peso institucional</td></tr>
+        <tr><td>JetBrains Mono</td><td>Eyebrow, metadatos, datos</td><td>0.62-0.78 rem</td><td>Monospace de alta legibilidad</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:1.6rem;margin:2.5rem 0 0.4rem">Banda tricolor recurrente</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">Cada sección está separada por un divisor tricolor sutil al 65% de ancho, que actúa como ritmo institucional sin saturar. La parte superior de la página y el pie llevan banda completa.</p>
+    <div style="height:6px;background:linear-gradient(90deg,var(--fr-blue) 0 33.33%,#fff 33.33% 66.66%,var(--fr-red) 66.66% 100%);margin:1.5rem 0"></div>
+  </div>
+</section>
+
+<!-- ═══ 03 · ARQUITECTURA ═══ -->
+<section id="arquitectura">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">03 · Arquitectura</p>
+      <h2>Arquitectura de <em>información</em></h2>
+      <p class="desc">Una secuencia narrativa de nueve secciones que conduce al visitante desde la presentación del Cónsul hasta el punto de contacto, con paradas culturales e institucionales intermedias.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <p class="when">Sección 01 · #hero</p>
+        <h4>Hero institucional</h4>
+        <p>Banner principal a ancho completo con slider auto-rotativo (5.5s) entre dos imágenes oficiales: la presentación con biografía completa y logos Ambassade/Consulat, y la versión Alliance Française con identidad francófona. Debajo, banda de datos institucionales (Rol · Jurisdicción · Estado · Embajada) y dos CTA: <em>Contactar</em> y <em>Solicitar cita consular</em>.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 02 · #about</p>
+        <h4>Perfil institucional</h4>
+        <p>Biografía formal del Cónsul Honorario con su rol dual: representación consular francesa + Vocal del Consejo Directivo de la Alianza Francesa de San Cristóbal. Acompañada por una tarjeta lateral con datos del Consulado (dirección, teléfono, mail, embajada de referencia).</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 03 · #historia</p>
+        <h4>Historia del Consulado en Chiapas</h4>
+        <p>Línea temporal con hitos de la presencia consular francesa en el estado, contextualizando la figura actual en una tradición de cooperación franco-mexicana de larga data.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 04 · #services</p>
+        <h4>Servicios consulares</h4>
+        <p>Cinco áreas de competencia del Cónsul Honorario: asistencia a connacionales, enlace cultural, certificaciones, situaciones de emergencia y cooperación institucional, presentadas como tarjetas con icono e eyebrow tipográfico.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 05 · #galeria</p>
+        <h4>Galería visual unificada</h4>
+        <p>Galería en dos formatos: grid horizontal 16:10 con las fotos oficiales del Cónsul, y filmstrip horizontal con los 26 documentos visuales institucionales (programa Alianza Francesa, presentaciones, eventos). Cada imagen abre en lightbox con navegación.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 06 · #links</p>
+        <h4>Enlaces institucionales</h4>
+        <p>Accesos directos verificados a la Embajada de Francia en México, el Consulado General, la Alianza Francesa San Cristóbal y la página de Facebook del Consulado en Chiapas.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 07 · #video-reel</p>
+        <h4>Reel audiovisual</h4>
+        <p>Video institucional <code>VidéoConsulat.mp4</code> reproducible en línea, con poster y controles personalizados. Complementa el material gráfico con la voz oficial del Consulado.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 08 · #contact</p>
+        <h4>Punto de contacto</h4>
+        <p>Formulario funcional conectado a EmailJS que envía mensajes directamente al correo institucional <code>tuxtlagutierrez.chfrance@gmail.com</code>, sin necesidad de servidor backend. Validación en tres idiomas.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Sección 09 · Footer</p>
+        <h4>Pie tricolor institucional</h4>
+        <p>Banda tricolor completa, datos de contacto resumidos, créditos y enlaces de retorno. Cierra la experiencia con el mismo lenguaje visual del hero.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 · FUNCIONALIDADES ═══ -->
+<section id="funcionalidades" class="alt">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">04 · Funcionalidades</p>
+      <h2>Funcionalidades <em>clave</em></h2>
+      <p class="desc">Más allá del contenido, el sitio incorpora doce funcionalidades técnicas que elevan la experiencia y refuerzan la imagen institucional.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="badge">Multilingüe</span>
+        <h3>Sistema ES · FR · EN nativo</h3>
+        <p>Selector de idioma en la barra superior. Más de 100 atributos <code>data-es</code> / <code>data-fr</code> / <code>data-en</code> permiten cambiar todo el contenido sin recargar la página. El idioma elegido se memoriza en <code>localStorage</code>.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Intro cinematográfica</span>
+        <h3>Video de bienvenida</h3>
+        <p>Al entrar al sitio se reproduce <code>Patrick_intro_horizontal.mp4</code> con monograma "PB", título y barra de progreso. El usuario puede saltar la intro o entrar al sitio cuando desee.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Slider hero</span>
+        <h3>Banner auto-rotativo</h3>
+        <p>El hero alterna automáticamente cada 5.5 segundos entre dos imágenes principales diseñadas (<code>11.png</code> con biografía completa y <code>10.png</code> con identidad Alianza Francesa). Indicadores manuales bajo el slider.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Cursor</span>
+        <h3>Cursor dual personalizado</h3>
+        <p>Dos elementos (punto + anillo magnético) reemplazan el cursor del sistema en escritorio. Reaccionan al hover sobre botones y enlaces con la paleta institucional (navy → rojo).</p>
+      </div>
+      <div class="card">
+        <span class="badge">EmailJS</span>
+        <h3>Formulario sin backend</h3>
+        <p>El formulario de contacto y el de cita consular envían correos institucionales directamente desde el navegador a través del servicio <code>service_k9b1j7y</code> / template <code>template_sp4hl5f</code> de EmailJS, sin necesidad de servidor PHP/Node.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Modal de cita</span>
+        <h3>Solicitud de cita consular</h3>
+        <p>Modal dedicado con campos: nombre, nacionalidad, teléfono, motivo, fecha preferida y mensaje. Validación trilingüe y confirmación visual al enviar.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Lightbox</span>
+        <h3>Visor de imágenes</h3>
+        <p>Cada imagen de la galería se abre en pantalla completa con título, navegación con flechas y cierre por <em>ESC</em>. Optimizado para visualizar documentos institucionales.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Animaciones</span>
+        <h3>Micro-animaciones sutiles</h3>
+        <p>Fade-up en scroll, shimmer en líneas decorativas, magnetic buttons en CTA, parallax leve en datos del hero. Todas respetan <code>prefers-reduced-motion</code>.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Schema.org</span>
+        <h3>SEO institucional</h3>
+        <p>Datos estructurados <code>Person</code> + Open Graph + Twitter Cards para que Google, redes sociales y buscadores institucionales muestren correctamente el perfil del Cónsul.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Audio ambiente</span>
+        <h3>Audio opcional</h3>
+        <p>Botón en esquina inferior derecha que activa <code>Arrival_at_the_Terminal.mp3</code> como fondo ambiente discreto. Apagado por defecto, controlado por el usuario.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Acceso rápido</span>
+        <h3>Botones flotantes</h3>
+        <p>WhatsApp y teléfono flotantes en mobile/desktop. Botón <em>back-to-top</em> aparece tras scroll. Barra de progreso de scroll en la parte superior.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Performance</span>
+        <h3>Carga progresiva</h3>
+        <p>Imágenes con <code>loading="lazy"</code>, fonts con <code>display=swap</code>, scripts diferidos, fallback de imágenes con <code>onerror</code>. Sin frameworks pesados: HTML/CSS/JS nativo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 05 · EJEMPLOS ═══ -->
+<section id="ejemplos">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">05 · Ejemplos reales</p>
+      <h2>Ejemplos <em>extraídos del sitio</em></h2>
+      <p class="desc">Capturas y fragmentos de código directamente del sitio publicado, mostrando cómo se materializa cada decisión de diseño.</p>
+    </div>
+
+    <h3 style="font-size:1.5rem;margin-bottom:0.6rem">Ejemplo 1 · Hero con slider auto-rotativo</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">El hero alterna dos imágenes principales con tipografía y biografía integradas. La primera presenta al Cónsul con logos institucionales y biografía oficial; la segunda lo asocia visualmente a la Alianza Francesa.</p>
+
+    <div class="example">
+      <div class="example-caption"><span>11.png · Banner institucional</span><span class="tag">SLIDE 01</span></div>
+      <img src="11.png" alt="Banner Patrick Robert de Bréon con biografía">
+      <div class="example-body">Presenta al Cónsul con los emblemas de la <em>Ambassade de France au Mexique</em> y el <em>Consulat Général de France à Mexico</em>, su título y biografía resumida en español.</div>
+    </div>
+
+    <div class="example">
+      <div class="example-caption"><span>10.png · Banner Alianza Francesa</span><span class="tag">SLIDE 02</span></div>
+      <img src="10.png" alt="Banner Patrick Robert de Bréon con logo Alianza Francesa">
+      <div class="example-body">Versión con el logotipo <em>af · Alliance Française San Cristóbal</em> en composición editorial sobre fondo de bandera tricolor.</div>
+    </div>
+
+    <h3 style="font-size:1.5rem;margin:2.5rem 0 0.6rem">Ejemplo 2 · Multilingüe en una línea de HTML</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">Cada elemento traducible lleva atributos para los tres idiomas. El selector ES/FR/EN cambia el contenido visible sin recargar.</p>
+
+    <div class="code" data-lang="HTML">&lt;<span class="k">p</span> <span class="a">data-es</span>=<span class="s">"Cónsul Honorario de Francia en Chiapas"</span>
+   <span class="a">data-fr</span>=<span class="s">"Consul Honoraire de France au Chiapas"</span>
+   <span class="a">data-en</span>=<span class="s">"Honorary Consul of France in Chiapas"</span>&gt;
+  Cónsul Honorario de Francia en Chiapas
+&lt;/<span class="k">p</span>&gt;</div>
+
+    <div class="code" data-lang="JS"><span class="k">function</span> <span class="t">setLang</span>(lang) {
+  document.querySelectorAll(<span class="s">'[data-'</span> + lang + <span class="s">']'</span>).forEach(el =&gt; {
+    el.textContent = el.getAttribute(<span class="s">'data-'</span> + lang);
+  });
+  localStorage.setItem(<span class="s">'lang'</span>, lang);
+}</div>
+
+    <h3 style="font-size:1.5rem;margin:2.5rem 0 0.6rem">Ejemplo 3 · Formulario de cita consular</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">El modal de cita envía el mensaje a EmailJS, que reenvía el contenido al correo institucional sin intermediarios.</p>
+
+    <div class="code" data-lang="JS"><span class="k">emailjs</span>.send(<span class="s">'service_k9b1j7y'</span>, <span class="s">'template_sp4hl5f'</span>, {
+  <span class="a">from_name</span>:    formData.get(<span class="s">'name'</span>),
+  <span class="a">nationality</span>: formData.get(<span class="s">'nationality'</span>),
+  <span class="a">phone</span>:       formData.get(<span class="s">'phone'</span>),
+  <span class="a">subject</span>:     <span class="s">'[Cita consular] '</span> + formData.get(<span class="s">'reason'</span>),
+  <span class="a">date</span>:        formData.get(<span class="s">'date'</span>),
+  <span class="a">message</span>:     formData.get(<span class="s">'message'</span>)
+}).<span class="t">then</span>(() =&gt; { showConfirmation(); });</div>
+
+    <h3 style="font-size:1.5rem;margin:2.5rem 0 0.6rem">Ejemplo 4 · Datos estructurados Schema.org</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">Google y motores de búsqueda institucionales reconocen al Cónsul como entidad oficial.</p>
+
+    <div class="code" data-lang="JSON-LD">{
+  <span class="a">"@context"</span>: <span class="s">"https://schema.org"</span>,
+  <span class="a">"@type"</span>: <span class="s">"Person"</span>,
+  <span class="a">"name"</span>: <span class="s">"Patrick Robert de Bréon"</span>,
+  <span class="a">"jobTitle"</span>: <span class="s">"Cónsul Honorario de Francia en Chiapas"</span>,
+  <span class="a">"worksFor"</span>: {
+    <span class="a">"@type"</span>: <span class="s">"Organization"</span>,
+    <span class="a">"name"</span>: <span class="s">"Consulat Honoraire de France"</span>,
+    <span class="a">"parentOrganization"</span>: <span class="s">"Ambassade de France au Mexique"</span>
+  },
+  <span class="a">"address"</span>: {
+    <span class="a">"streetAddress"</span>: <span class="s">"1a Sur Poniente n°627, Colonia Terán"</span>,
+    <span class="a">"addressLocality"</span>: <span class="s">"Tuxtla Gutiérrez"</span>,
+    <span class="a">"addressRegion"</span>: <span class="s">"Chiapas"</span>,
+    <span class="a">"postalCode"</span>: <span class="s">"29050"</span>,
+    <span class="a">"addressCountry"</span>: <span class="s">"MX"</span>
+  }
+}</div>
+  </div>
+</section>
+
+<!-- ═══ 06 · TECNOLOGÍA ═══ -->
+<section id="tecnologia" class="alt">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">06 · Tecnología</p>
+      <h2>Stack <em>técnico</em></h2>
+      <p class="desc">Decisión consciente de mantener el sitio en tecnologías nativas: cero dependencias de framework, máxima durabilidad institucional, costo de mantenimiento mínimo.</p>
+    </div>
+
+    <table class="tbl">
+      <thead><tr><th>Capa</th><th>Tecnología</th><th>Por qué</th></tr></thead>
+      <tbody>
+        <tr><td>HTML</td><td>HTML5 semántico</td><td>Accesible, SEO-friendly, sin transpilación</td></tr>
+        <tr><td>CSS</td><td>CSS nativo + variables</td><td>Sin preprocesadores, mantenible directamente</td></tr>
+        <tr><td>JavaScript</td><td>Vanilla ES6+</td><td>Sin React/Vue/Angular — el sitio funcionará en 10 años sin migrar</td></tr>
+        <tr><td>Tipografía</td><td>Google Fonts (Cormorant, Syne, JetBrains Mono)</td><td>Gratuito, CDN global, soporta acentos franceses</td></tr>
+        <tr><td>Iconografía</td><td>Font Awesome 6</td><td>Iconos institucionales consistentes en CDN</td></tr>
+        <tr><td>Formularios</td><td>EmailJS</td><td>Envío directo desde el navegador, sin servidor backend</td></tr>
+        <tr><td>Hosting</td><td>GitHub Pages</td><td>Gratuito, HTTPS automático, despliegue por <code>git push</code></td></tr>
+        <tr><td>Dominio</td><td>github.io o dominio propio</td><td>Configurable según preferencia institucional</td></tr>
+        <tr><td>Repositorio</td><td>GitHub</td><td>Historial completo, control de versiones, colaboración</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout red">
+      <strong>Sin dependencias de servidor.</strong> El sitio completo es estático: HTML + CSS + JS + imágenes. Cualquier servidor web del mundo (incluido GitHub Pages, Netlify, Vercel o un hosting clásico cPanel) puede servirlo sin configuración adicional.
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><span class="n">1830</span><span class="l">Líneas HTML</span></div>
+      <div class="metric"><span class="n">9</span><span class="l">Secciones</span></div>
+      <div class="metric"><span class="n">102</span><span class="l">Strings i18n</span></div>
+      <div class="metric"><span class="n">0</span><span class="l">Frameworks JS</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 07 · ACCESIBILIDAD ═══ -->
+<section id="accesibilidad">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">07 · Accesibilidad</p>
+      <h2>Ergonomía para <em>audiencia adulta</em></h2>
+      <p class="desc">El sitio está optimizado para lectores adultos, incluidos los que usan tablets o se conectan desde Europa con conexiones moderadas. Cada decisión tipográfica responde a esa premisa.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="badge">Contraste</span>
+        <h3>Ratio &gt; 9:1</h3>
+        <p>El texto principal (#1a2238 sobre #f4ede2) supera con holgura el ratio AAA del WCAG (7:1). Apto para presbicia y baja visión moderada.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Tipografía</span>
+        <h3>Cuerpo 1.05rem · 1.85 line-height</h3>
+        <p>Tamaño base más generoso que el estándar web (1rem), interlineado amplio para facilitar el seguimiento de líneas largas.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Tap targets</span>
+        <h3>Mínimo 44×44 px</h3>
+        <p>Botones, enlaces de navegación y CTAs cumplen el mínimo Apple HIG / Material para uso táctil sin error.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Reducir motion</span>
+        <h3>prefers-reduced-motion</h3>
+        <p>Quienes tengan activada la preferencia del sistema verán animaciones reducidas o desactivadas. Respeto a vestibular sensitivity.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Letterspacing</span>
+        <h3>Espaciado moderado</h3>
+        <p>Letterspacing máximo 0.25em (vs. 0.5em de versiones experimentales). Las palabras conservan su forma reconocible.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Semántica</span>
+        <h3>HTML5 con landmarks</h3>
+        <p>Uso correcto de <code>&lt;nav&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, atributos <code>aria-*</code> y <code>alt</code> en imágenes para lectores de pantalla.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 08 · MANTENIMIENTO ═══ -->
+<section id="mantenimiento" class="alt">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">08 · Operación</p>
+      <h2>Mantenimiento <em>y operación</em></h2>
+      <p class="desc">El sitio fue diseñado para que su operación cotidiana no requiera conocimientos técnicos avanzados. Aquí, las tareas más frecuentes.</p>
+    </div>
+
+    <table class="tbl">
+      <thead><tr><th>Tarea</th><th>Quién</th><th>Cómo</th><th>Frecuencia</th></tr></thead>
+      <tbody>
+        <tr><td>Actualizar biografía</td><td>Secretaría consular</td><td>Editar <code>index.html</code> en GitHub, modificar el bloque <code>#about</code></td><td>Anual</td></tr>
+        <tr><td>Cambiar fotos del hero</td><td>Comunicación</td><td>Reemplazar <code>10.png</code> y <code>11.png</code> en el repo</td><td>A demanda</td></tr>
+        <tr><td>Agregar evento a galería</td><td>Comunicación</td><td>Subir nueva imagen numerada (<code>27.png</code>, <code>28.png</code>…) y el bucle JS la incluye automáticamente</td><td>Mensual</td></tr>
+        <tr><td>Actualizar video institucional</td><td>Comunicación</td><td>Reemplazar <code>VidéoConsulat.mp4</code> conservando el nombre</td><td>Bianual</td></tr>
+        <tr><td>Cambiar correo de contacto</td><td>Administración</td><td>Modificar template EmailJS en panel del servicio + footer del sitio</td><td>Excepcional</td></tr>
+        <tr><td>Añadir nuevo idioma</td><td>Desarrollo</td><td>Replicar atributos <code>data-XX</code> en todos los elementos traducibles</td><td>Excepcional</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      Todas las modificaciones quedan registradas en el historial de Git, lo que permite revertir cualquier cambio en segundos y mantener trazabilidad institucional de la información publicada.
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 09 · CONTRIBUCIÓN ═══ -->
+<section id="contribucion">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">09 · Contribución</p>
+      <h2>Qué <em>aporta</em> al Consulado</h2>
+      <p class="desc">El sitio no es solo presencia digital: es una herramienta operativa concreta para el trabajo cotidiano del Consulado y la Alianza Francesa.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="num">·A</span>
+        <span class="badge">Servicio público</span>
+        <h3>Canal oficial de contacto</h3>
+        <p>Reduce la dependencia de WhatsApp personal y redes sociales informales. Los ciudadanos franceses encuentran al Cónsul por la vía oficial — formulario validado, datos verificados, dirección física.</p>
+      </div>
+      <div class="card">
+        <span class="num">·B</span>
+        <span class="badge">Cooperación</span>
+        <h3>Ventana institucional</h3>
+        <p>Comunica el rol del Cónsul Honorario al gobierno de Chiapas, instituciones educativas y otras embajadas locales, facilitando interacciones formales y agendas conjuntas.</p>
+      </div>
+      <div class="card">
+        <span class="num">·C</span>
+        <span class="badge">Cultural</span>
+        <h3>Difusión francófona</h3>
+        <p>La Alianza Francesa de San Cristóbal gana un canal de visibilidad asociado a la figura consular, fortaleciendo su misión cultural y educativa en el estado.</p>
+      </div>
+      <div class="card">
+        <span class="num">·D</span>
+        <span class="badge">Modernización</span>
+        <h3>Imagen contemporánea</h3>
+        <p>El Consulado Honorario en Chiapas demuestra capacidad de adaptación a estándares digitales europeos, alineándose con el portal institucional de la Embajada (<code>mx.ambafrance.org</code>).</p>
+      </div>
+      <div class="card">
+        <span class="num">·E</span>
+        <span class="badge">Costo</span>
+        <h3>Sostenibilidad económica</h3>
+        <p>Hosting gratuito (GitHub Pages), formulario gratuito (EmailJS plan free), sin licencias propietarias. Costo anual de operación: <strong>0 EUR</strong> en infraestructura.</p>
+      </div>
+      <div class="card">
+        <span class="num">·F</span>
+        <span class="badge">Continuidad</span>
+        <h3>Sucesión institucional</h3>
+        <p>El sitio sobrevive al titular: si en el futuro el Consulado nombra otro Cónsul Honorario, la plataforma se actualiza editando el contenido, conservando toda la arquitectura.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      «Un sitio web institucional es, en el siglo XXI, parte del protocolo consular. Que un ciudadano francés en Tuxtla Gutiérrez pueda contactar a su Cónsul en tres clics es tan importante como la placa en la puerta de la oficina.»
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<div class="cta-bar">
+  <div class="container">
+    <h2>Visite el <em>sitio publicado</em></h2>
+    <p>Toda la documentación de este dossier está implementada y disponible en línea. Explore la versión funcional del proyecto.</p>
+    <div class="cta-btns">
+      <a href="index.html" class="btn btn-primary">Ir al sitio principal →</a>
+      <a href="https://github.com/migueltillero-ship-it/Patrick.-Vocal-Consejo-Directivo" class="btn btn-ghost">Repositorio en GitHub</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-stripe"></div>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <h4>Dossier institucional</h4>
+        <p>Sitio web del Cónsul Honorario de Francia en Chiapas — proyecto finalizado, listo para contribuir con el Consulado y la Alianza Francesa de San Cristóbal de Las Casas.</p>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li>+52 961 203 3909</li>
+          <li>tuxtlagutierrez.chfrance@gmail.com</li>
+          <li>mx.ambafrance.org</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentos</h4>
+        <ul>
+          <li><a href="index.html">Sitio principal</a></li>
+          <li><a href="#vision">Volver al inicio del dossier</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-meta">
+      Patrick Robert de Bréon · Consulat Honoraire de France · Chiapas · Junio 2026
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

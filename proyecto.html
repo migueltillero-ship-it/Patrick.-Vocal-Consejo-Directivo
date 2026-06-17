@@ -431,6 +431,7 @@ footer{
       <li><a href="#tecnologia">Tecnología y stack</a></li>
       <li><a href="#accesibilidad">Accesibilidad y ergonomía</a></li>
       <li><a href="#mantenimiento">Mantenimiento y operación</a></li>
+      <li><a href="#correo">Sistema de envío de formularios</a></li>
       <li><a href="#contribucion">Contribución al Consulado</a></li>
     </ol>
   </nav>
@@ -828,11 +829,143 @@ footer{
   </div>
 </section>
 
-<!-- ═══ 09 · CONTRIBUCIÓN ═══ -->
+<!-- ═══ 09 · CORREO ═══ -->
+<section id="correo">
+  <div class="container">
+    <div class="sec-head">
+      <p class="eyebrow">09 · Garantía de entrega</p>
+      <h2>Sistema de <em>envío de formularios</em></h2>
+      <p class="desc">Los datos que los visitantes ingresan en los formularios —de contacto general y de solicitud de cita consular— se transmiten directamente al correo institucional del Cónsul Honorario con tres capas de fiabilidad.</p>
+    </div>
+
+    <div class="callout">
+      Cada formulario enviado llega al correo <strong>tuxtlagutierrez.chfrance@gmail.com</strong> con copia (CC) a <strong>consulat.france.chiapas@gmail.com</strong>, ambos administrados por el Consulado Honorario.
+    </div>
+
+    <h3 style="font-size:1.5rem;margin:2rem 0 0.6rem">Flujo de envío de un formulario</h3>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <p class="when">Paso 01 · Visitante</p>
+        <h4>Llena el formulario</h4>
+        <p>El visitante completa los campos: nombre, correo, teléfono, ciudad, motivo, fecha preferida y mensaje. Validación trilingüe en el navegador antes de enviar.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Paso 02 · Navegador</p>
+        <h4>Empaqueta los datos</h4>
+        <p>Una función JavaScript construye un objeto con los campos del formulario más metadatos: <code>reply_to</code> (correo del visitante), <code>sent_at</code> (timestamp en hora de Ciudad de México), <code>to_email</code> y <code>cc_email</code>.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Paso 03 · EmailJS</p>
+        <h4>Envía el correo</h4>
+        <p>El servicio EmailJS (<code>service_k9b1j7y</code> / template <code>template_sp4hl5f</code>) recibe el payload, lo procesa con la plantilla institucional y dispara el correo al destinatario principal con copia al secundario.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Paso 04 · Cónsul</p>
+        <h4>Recibe en Gmail</h4>
+        <p>El Cónsul Honorario recibe el correo en <strong>tuxtlagutierrez.chfrance@gmail.com</strong>. Una copia llega a <strong>consulat.france.chiapas@gmail.com</strong> para resguardo institucional.</p>
+      </div>
+      <div class="tl-item">
+        <p class="when">Paso 05 · Respuesta</p>
+        <h4>Responde con un click</h4>
+        <p>Gracias al campo <code>reply_to</code>, al hacer click en <em>Responder</em> desde Gmail, el destinatario es automáticamente el visitante que llenó el formulario. No hace falta copiar el correo manualmente.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.5rem;margin:2.5rem 0 0.6rem">Tres capas de fiabilidad</h3>
+    <p style="color:var(--ink-soft);margin-bottom:1rem;">Para garantizar que <strong>ningún mensaje se pierda</strong>, el sistema incorpora tres mecanismos redundantes.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <span class="num">·01</span>
+        <span class="badge">Primario</span>
+        <h3>EmailJS</h3>
+        <p>El envío automático directo desde el navegador del visitante al correo del Cónsul, sin intermediarios.</p>
+      </div>
+      <div class="card">
+        <span class="num">·02</span>
+        <span class="badge">Respaldo</span>
+        <h3>Fallback mailto:</h3>
+        <p>Si EmailJS falla (cuota agotada, red intermitente, servicio caído), el sitio construye un enlace <code>mailto:</code> pre-llenado con todos los datos y abre el cliente de correo del visitante. El mensaje no se pierde.</p>
+      </div>
+      <div class="card">
+        <span class="num">·03</span>
+        <span class="badge">Emergencia</span>
+        <h3>Teléfono directo</h3>
+        <p>Si el visitante prefiere no enviar correo, un solo click marca <code>+52 961 203 3909</code> desde su teléfono.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.5rem;margin:2.5rem 0 0.6rem">Campos transmitidos al Cónsul</h3>
+
+    <table class="tbl">
+      <thead><tr><th>Campo</th><th>Variable EmailJS</th><th>Origen</th></tr></thead>
+      <tbody>
+        <tr><td>Asunto</td><td><code>{{subject}}</code></td><td>Generado según tipo de formulario</td></tr>
+        <tr><td>Nombre del visitante</td><td><code>{{from_name}}</code></td><td>Campo "Nombre completo"</td></tr>
+        <tr><td>Email del visitante</td><td><code>{{from_email}}</code></td><td>Campo "Correo electrónico"</td></tr>
+        <tr><td>Responder a</td><td><code>{{reply_to}}</code></td><td>Mismo email — para responder con un click</td></tr>
+        <tr><td>Teléfono</td><td><code>{{telefono}}</code></td><td>Campo opcional</td></tr>
+        <tr><td>Ciudad</td><td><code>{{ciudad}}</code></td><td>Campo opcional</td></tr>
+        <tr><td>Tipo / Motivo</td><td><code>{{tipo}}</code></td><td>Selector de categoría</td></tr>
+        <tr><td>Fecha solicitada</td><td><code>{{fecha}}</code></td><td>Solo en formulario de cita</td></tr>
+        <tr><td>Horario preferido</td><td><code>{{horario}}</code></td><td>Solo en formulario de cita</td></tr>
+        <tr><td>Mensaje</td><td><code>{{message}}</code></td><td>Texto libre del visitante</td></tr>
+        <tr><td>Fecha de envío</td><td><code>{{sent_at}}</code></td><td>Hora Ciudad de México · Auto</td></tr>
+        <tr><td>Destinatario principal</td><td><code>{{to_email}}</code></td><td>tuxtlagutierrez.chfrance@gmail.com</td></tr>
+        <tr><td>Copia (CC)</td><td><code>{{cc_email}}</code></td><td>consulat.france.chiapas@gmail.com</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:1.5rem;margin:2.5rem 0 0.6rem">Código de envío (extracto real del sitio)</h3>
+
+    <div class="code" data-lang="JavaScript">async <span class="k">function</span> <span class="t">sendEmail</span>(params, successId, formEl) {
+  <span class="k">const</span> fromEmail = params.email || <span class="s">''</span>;
+  <span class="k">const</span> payload = {
+    <span class="a">subject</span>:    params.subject,
+    <span class="a">from_name</span>:  params.nombre,
+    <span class="a">from_email</span>: fromEmail,
+    <span class="a">reply_to</span>:   fromEmail,    <span class="c">// permite responder con un click</span>
+    <span class="a">telefono</span>:   params.telefono,
+    <span class="a">ciudad</span>:     params.ciudad,
+    <span class="a">tipo</span>:       params.tipo,
+    <span class="a">fecha</span>:      params.fecha,
+    <span class="a">horario</span>:    params.horario,
+    <span class="a">message</span>:    params.message,
+    <span class="a">to_email</span>:   <span class="s">'tuxtlagutierrez.chfrance@gmail.com'</span>,
+    <span class="a">cc_email</span>:   <span class="s">'consulat.france.chiapas@gmail.com'</span>,
+    <span class="a">sent_at</span>:    <span class="k">new</span> Date().toLocaleString(<span class="s">'es-MX'</span>, {
+      <span class="a">timeZone</span>: <span class="s">'America/Mexico_City'</span>
+    })
+  };
+
+  <span class="k">try</span> {
+    <span class="k">const</span> result = await emailjs.send(SERVICE, TEMPLATE, payload);
+    <span class="k">if</span> (result.status === 200) showSuccess(successId);
+  } <span class="k">catch</span> (err) {
+    <span class="c">// fallback: abrir mailto: pre-llenado para no perder el mensaje</span>
+    window.location.href = buildMailtoFallback(params);
+  }
+}</div>
+
+    <div class="callout red">
+      <strong>Configuración en el panel de EmailJS.</strong> Para que la respuesta directa funcione, en el template <code>template_sp4hl5f</code> de EmailJS, el campo <strong>Reply To</strong> debe estar configurado con la variable <code>{{reply_to}}</code> y el campo <strong>To Email</strong> con <code>{{to_email}}</code> (o con la dirección directa). El campo <strong>CC</strong> con <code>{{cc_email}}</code>.
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><span class="n">2</span><span class="l">Destinatarios</span></div>
+      <div class="metric"><span class="n">3</span><span class="l">Capas de respaldo</span></div>
+      <div class="metric"><span class="n">13</span><span class="l">Campos transmitidos</span></div>
+      <div class="metric"><span class="n">0€</span><span class="l">Costo operativo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 10 · CONTRIBUCIÓN ═══ -->
 <section id="contribucion">
   <div class="container">
     <div class="sec-head">
-      <p class="eyebrow">09 · Contribución</p>
+      <p class="eyebrow">10 · Contribución</p>
       <h2>Qué <em>aporta</em> al Consulado</h2>
       <p class="desc">El sitio no es solo presencia digital: es una herramienta operativa concreta para el trabajo cotidiano del Consulado y la Alianza Francesa.</p>
     </div>

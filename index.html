@@ -1521,6 +1521,7 @@ const EMAILJS_SERVICE  = 'service_k9b1j7y';
 const EMAILJS_TEMPLATE = 'template_sp4hl5f';
 const EMAILJS_KEY      = '7FPd-e34G4AgVK5YA';
 const CONSUL_EMAIL_PRIMARY = 'tuxtlagutierrez.chfrance@gmail.com';
+const CONSUL_EMAIL_CC      = 'consulat.france.chiapas@gmail.com';
 
 if (EMAILJS_KEY && !EMAILJS_KEY.startsWith('TU_')) { try { emailjs.init(EMAILJS_KEY); } catch(e){} }
 
@@ -1540,7 +1541,8 @@ function buildMailtoFallback(params) {
   ];
   const body = encodeURIComponent(lines.join('\n'));
   return 'mailto:' + CONSUL_EMAIL_PRIMARY
-       + '?subject=' + subject
+       + '?cc=' + CONSUL_EMAIL_CC
+       + '&subject=' + subject
        + '&body=' + body;
 }
 
@@ -1559,6 +1561,7 @@ async function sendEmail(params, successId, formEl) {
     horario:     params.horario    || '—',
     message:     params.message    || params.mensaje || '—',
     to_email:    CONSUL_EMAIL_PRIMARY,
+    cc_email:    CONSUL_EMAIL_CC,
     sent_at:     new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })
   };
 

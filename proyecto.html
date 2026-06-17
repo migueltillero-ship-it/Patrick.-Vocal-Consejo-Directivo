@@ -419,6 +419,48 @@ footer{
   </div>
 </header>
 
+<!-- ═══ RECONOCIMIENTO DESTACADO ═══ -->
+<section style="padding:4rem 0 2rem;background:var(--bg-alt);position:relative">
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:3px;background:linear-gradient(90deg,var(--fr-blue) 0 33.33%,#fff 33.33% 66.66%,var(--fr-red) 66.66% 100%);opacity:0.5"></div>
+  <div class="container">
+    <div style="text-align:center;max-width:880px;margin:0 auto 2rem;">
+      <p class="eyebrow">Reconocimiento institucional · Junio 2026</p>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);margin:0.6rem 0 1rem;"><em>Orden Nacional del Mérito</em></h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.05rem,1.7vw,1.3rem);color:var(--ink-soft);">El arquitecto Patrick Robert, Cónsul Honorario de Francia en Chiapas, recibió de manos de la Embajadora Delphine Borione la Orden Nacional del Mérito, durante la reunión anual de los Cónsules Honorarios de Francia en México celebrada en la Residencia de Francia.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:0.8rem;max-width:1100px;margin:0 auto 2rem;aspect-ratio:16/9" class="recon-mosaic">
+      <div style="grid-row:1/span 2;overflow:hidden;border:1px solid var(--rule);background:var(--surface)">
+        <img src="reconocimiento-2.jpeg" alt="Patrick Robert de Bréon condecorado con la Orden Nacional del Mérito" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="grid-column:span 2;overflow:hidden;border:1px solid var(--rule);background:var(--surface)">
+        <img src="reconocimiento-3.jpeg" alt="Imposición de la condecoración por la Embajadora Delphine Borione" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <div style="grid-column:span 2;overflow:hidden;border:1px solid var(--rule);background:var(--surface)">
+        <img src="reconocimiento-1.jpeg" alt="Reunión anual de Cónsules Honorarios de Francia en México" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+    </div>
+
+    <blockquote style="max-width:840px;margin:0 auto;padding:1.8rem 2rem;background:var(--surface);border-left:4px solid var(--fr-blue);border-right:4px solid var(--fr-red);box-shadow:var(--shadow);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--ink)">
+      <p style="margin:0 0 1rem">«Tuvimos el gran placer de recibir en la Residencia de Francia a Pauline Carmona, directora de los Franceses en el Extranjero y de la Administración Consular, con motivo de la reunión anual de los Cónsules Honorarios de Francia en México. Su visita reconoce el compromiso de los equipos consulares y de la red de cónsules honorarios que trabajan cada día al servicio de la comunidad francesa en México, la más importante de América Latina.</p>
+      <p style="margin:0 0 1rem">En el marco del bicentenario de las relaciones diplomáticas México–Francia, este encuentro fue una oportunidad para reconocer la trayectoria de dos personalidades que impulsaron con pasión y dedicación la cooperación entre nuestros dos países: la Doctora Ofelia Cervantes, Cónsul Honoraria en Puebla, condecorada con la medalla de honor de Relaciones Exteriores de Francia; y el arquitecto Patrick Robert, Cónsul Honorario en Chiapas, quien recibió de la Embajadora Delphine Borione la Orden Nacional del Mérito.»</p>
+      <footer style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);font-weight:700;text-align:right">— Nota oficial · Embajada de Francia en México</footer>
+    </blockquote>
+  </div>
+</section>
+
+<style>
+@media (max-width:880px){
+  .recon-mosaic{grid-template-columns:1fr 1fr !important;grid-template-rows:auto auto auto !important;aspect-ratio:auto !important}
+  .recon-mosaic > div:first-child{grid-row:auto !important;grid-column:1/-1 !important;aspect-ratio:16/10}
+  .recon-mosaic > div:not(:first-child){grid-column:span 1 !important;aspect-ratio:4/3}
+}
+@media (max-width:540px){
+  .recon-mosaic{grid-template-columns:1fr !important}
+  .recon-mosaic > div:not(:first-child){grid-column:1 !important;aspect-ratio:16/10}
+}
+</style>
+
 <div class="container">
   <nav class="toc" aria-label="Tabla de contenidos">
     <h3>Tabla de contenidos</h3>

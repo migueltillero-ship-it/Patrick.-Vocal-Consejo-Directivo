@@ -411,6 +411,74 @@ section::after {
 .gal-zoom { position: absolute; bottom: 1rem; right: 1rem; z-index: 5; width: 2.4rem; height: 2.4rem; border: 1px solid var(--white); background: rgba(0,35,149,0.85); display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 0.75rem; opacity: 0; transform: translateY(6px); transition: all 0.3s; }
 .gal-item:hover .gal-zoom { opacity: 1; transform: none; }
 
+/* ── RECONOCIMIENTO INSTITUCIONAL ── */
+#reconocimiento { padding: 5rem 0 4rem; position: relative; }
+#reconocimiento::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 60%; height: 3px;
+  background: linear-gradient(90deg, var(--fr-blue) 0 33.33%, var(--white) 33.33% 66.66%, var(--fr-red) 66.66% 100%);
+  opacity: 0.45;
+}
+.recon-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.9rem;
+  max-width: 1200px;
+  margin: 0 auto 2.8rem;
+  aspect-ratio: 16/9;
+}
+.recon-item { position: relative; overflow: hidden; cursor: pointer; border: 1px solid var(--rule); background: var(--bg-alt); box-shadow: var(--shadow-sm); transition: transform 0.4s, box-shadow 0.4s; }
+.recon-item.recon-feat { grid-row: 1 / span 2; }
+.recon-item:not(.recon-feat) { grid-column: span 2; }
+.recon-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s ease, filter 0.4s; filter: saturate(96%) contrast(102%); }
+.recon-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.recon-item:hover img { transform: scale(1.05); filter: saturate(105%) contrast(106%); }
+.recon-item::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,34,56,0.45) 0%, transparent 55%);
+  opacity: 0; transition: opacity 0.35s;
+}
+.recon-item:hover::after { opacity: 1; }
+.recon-quote {
+  max-width: 880px; margin: 0 auto;
+  padding: 2rem 2.2rem;
+  background: var(--panel);
+  border-left: 4px solid var(--fr-blue);
+  border-right: 4px solid var(--fr-red);
+  box-shadow: var(--shadow);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+  line-height: 1.7;
+  color: var(--ink);
+}
+.recon-quote p { margin: 0 0 1.2rem; }
+.recon-attribution {
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  text-align: right;
+}
+@media (max-width: 880px) {
+  .recon-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    aspect-ratio: auto;
+  }
+  .recon-item.recon-feat { grid-row: auto; grid-column: 1 / -1; aspect-ratio: 16/10; }
+  .recon-item:not(.recon-feat) { grid-column: span 1; aspect-ratio: 4/3; }
+}
+@media (max-width: 540px) {
+  .recon-grid { grid-template-columns: 1fr; }
+  .recon-item:not(.recon-feat) { grid-column: 1; aspect-ratio: 16/10; }
+  .recon-quote { padding: 1.4rem 1.4rem; }
+}
+
 .consul-card {
   padding: 2rem; border: 1px solid var(--rule);
   background: var(--surface);
@@ -899,6 +967,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     <div class="brand-sub" data-es="Consulado Honorario de Francia · Chiapas" data-fr="Consulat Honoraire de France · Chiapas" data-en="Honorary Consulate of France · Chiapas">Consulado Honorario de Francia · Chiapas</div>
   </div>
   <ul class="nav-links">
+    <li><a href="#reconocimiento" data-es="Reconocimiento" data-fr="Reconnaissance" data-en="Recognition">Reconocimiento</a></li>
     <li><a href="#about" data-es="Perfil" data-fr="Profil" data-en="Profile">Perfil</a></li>
     <li><a href="#historia" data-es="Historia" data-fr="Histoire" data-en="History">Historia</a></li>
     <li><a href="#services" data-es="Servicios" data-fr="Services" data-en="Services">Servicios</a></li>
@@ -986,6 +1055,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     </div>
   </div>
 </div>
+
+<!-- ═══ RECONOCIMIENTO INSTITUCIONAL ═══ -->
+<section id="reconocimiento" class="z10">
+  <div class="container">
+    <div class="sec-head reveal" style="text-align:center;max-width:920px;margin:0 auto 2.5rem;">
+      <p class="eyebrow" data-es="Reconocimiento institucional · Junio 2026" data-fr="Reconnaissance institutionnelle · Juin 2026" data-en="Institutional recognition · June 2026">Reconocimiento institucional · Junio 2026</p>
+      <h2 class="sec-title" style="margin-top:0.8rem;"><em data-es="Orden Nacional del Mérito" data-fr="Ordre National du Mérite" data-en="National Order of Merit">Orden Nacional del Mérito</em></h2>
+      <p class="hero-tagline" style="margin-top:1rem;font-size:clamp(1.05rem,1.6vw,1.3rem);" data-es="Otorgada al Cónsul Honorario Patrick Robert de Bréon por la Embajadora Delphine Borione, en la reunión anual de los Cónsules Honorarios de Francia en México." data-fr="Décerné au Consul Honoraire Patrick Robert de Bréon par l'Ambassadrice Delphine Borione, lors de la réunion annuelle des Consuls Honoraires de France au Mexique." data-en="Awarded to Honorary Consul Patrick Robert de Bréon by Ambassador Delphine Borione, during the annual meeting of Honorary Consuls of France in Mexico.">Otorgada al Cónsul Honorario Patrick Robert de Bréon por la Embajadora Delphine Borione, en la reunión anual de los Cónsules Honorarios de Francia en México.</p>
+    </div>
+
+    <div class="recon-grid reveal d1">
+      <div class="recon-item recon-feat" onclick="openLB('reconocimiento-2.jpeg','Patrick Robert de Bréon · Orden Nacional del Mérito')">
+        <img src="reconocimiento-2.jpeg" alt="Patrick Robert de Bréon condecorado con la Orden Nacional del Mérito" loading="lazy">
+      </div>
+      <div class="recon-item" onclick="openLB('reconocimiento-3.jpeg','Imposición de la condecoración por la Embajadora Delphine Borione')">
+        <img src="reconocimiento-3.jpeg" alt="Imposición de la condecoración por la Embajadora Delphine Borione" loading="lazy">
+      </div>
+      <div class="recon-item" onclick="openLB('reconocimiento-1.jpeg','Reunión anual de Cónsules Honorarios de Francia en México · Residencia de Francia')">
+        <img src="reconocimiento-1.jpeg" alt="Reunión anual de Cónsules Honorarios de Francia en México" loading="lazy">
+      </div>
+    </div>
+
+    <blockquote class="recon-quote reveal d2">
+      <p data-es="«Tuvimos el gran placer de recibir en la Residencia de Francia a Pauline Carmona, directora de los Franceses en el Extranjero y de la Administración Consular, con motivo de la reunión anual de los Cónsules Honorarios de Francia en México. Su visita reconoce el compromiso de los equipos consulares y de la red de cónsules honorarios que trabajan cada día al servicio de la comunidad francesa en México, la más importante de América Latina. En el marco del bicentenario de las relaciones diplomáticas México-Francia, este encuentro fue una oportunidad para reconocer la trayectoria de dos personalidades que impulsaron con pasión y dedicación la cooperación entre nuestros dos países: la Doctora Ofelia Cervantes, Cónsul Honoraria en Puebla, condecorada con la medalla de honor de Relaciones Exteriores de Francia; y el arquitecto Patrick Robert, Cónsul Honorario en Chiapas, quien recibió de la Embajadora Delphine Borione la Orden Nacional del Mérito.»"
+         data-fr="« Nous avons eu le grand plaisir d'accueillir à la Résidence de France Pauline Carmona, directrice des Français à l'Étranger et de l'Administration Consulaire, à l'occasion de la réunion annuelle des Consuls Honoraires de France au Mexique. Sa visite reconnaît l'engagement des équipes consulaires et du réseau des consuls honoraires qui travaillent chaque jour au service de la communauté française au Mexique, la plus importante d'Amérique latine. Dans le cadre du bicentenaire des relations diplomatiques Mexique-France, cette rencontre a été l'occasion de saluer le parcours de deux personnalités qui ont impulsé avec passion et dévouement la coopération entre nos deux pays : la Docteure Ofelia Cervantes, Consule Honoraire à Puebla, décorée de la médaille d'honneur des Affaires étrangères de France ; et l'architecte Patrick Robert, Consul Honoraire au Chiapas, qui a reçu de l'Ambassadrice Delphine Borione l'Ordre National du Mérite. »"
+         data-en="«We were delighted to welcome at the Residence of France Pauline Carmona, Director of French Citizens Abroad and Consular Administration, on the occasion of the annual meeting of Honorary Consuls of France in Mexico. Her visit recognises the commitment of the consular teams and of the network of honorary consuls who work each day in the service of the French community in Mexico, the largest in Latin America. Within the framework of the bicentenary of Mexico-France diplomatic relations, this meeting was an opportunity to honour the careers of two figures who have driven cooperation between our two countries with passion and dedication: Dr. Ofelia Cervantes, Honorary Consul in Puebla, decorated with the Medal of Honour of the French Ministry of Foreign Affairs; and architect Patrick Robert, Honorary Consul in Chiapas, who received from Ambassador Delphine Borione the National Order of Merit.»">«Tuvimos el gran placer de recibir en la Residencia de Francia a Pauline Carmona, directora de los Franceses en el Extranjero y de la Administración Consular, con motivo de la reunión anual de los Cónsules Honorarios de Francia en México. Su visita reconoce el compromiso de los equipos consulares y de la red de cónsules honorarios que trabajan cada día al servicio de la comunidad francesa en México, la más importante de América Latina. En el marco del bicentenario de las relaciones diplomáticas México-Francia, este encuentro fue una oportunidad para reconocer la trayectoria de dos personalidades que impulsaron con pasión y dedicación la cooperación entre nuestros dos países: la Doctora Ofelia Cervantes, Cónsul Honoraria en Puebla, condecorada con la medalla de honor de Relaciones Exteriores de Francia; y el arquitecto Patrick Robert, Cónsul Honorario en Chiapas, quien recibió de la Embajadora Delphine Borione la Orden Nacional del Mérito.»</p>
+      <footer class="recon-attribution" data-es="— Nota oficial · Embajada de Francia en México" data-fr="— Note officielle · Ambassade de France au Mexique" data-en="— Official note · Embassy of France in Mexico">— Nota oficial · Embajada de Francia en México</footer>
+    </blockquote>
+  </div>
+</section>
 
 <!-- ═══ ABOUT ═══ -->
 <section id="about" class="alt z10">
